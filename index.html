@@ -7,9 +7,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--verde:#00A651;--verde-claro:#39D353;--azul-oscuro:#003366;--azul:#0057A8;--amarillo:#FFD700;--rojo:#CC0000;--blanco:#FFFFFF;--gris:#8A9BB0;--sombra:0 4px 24px rgba(0,51,102,0.13)}
+:root{--verde:#00A651;--verde-claro:#39D353;--azul-oscuro:#003366;--azul:#0057A8;--amarillo:#FFD700;--rojo:#CC0000;--gris:#8A9BB0;--sombra:0 4px 24px rgba(0,51,102,0.13)}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#001a3a 0%,#003366 40%,#004080 100%);min-height:100vh;color:#1a2a3a}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#001a3a 0%,#003366 40%,#004080 100%);min-height:100vh}
 .header{background:linear-gradient(90deg,#001a3a,#003366,#001a3a);border-bottom:3px solid var(--verde);padding:18px 30px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
 .logo-badge{width:64px;height:64px;background:var(--verde);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 0 0 4px rgba(0,166,81,0.3);flex-shrink:0}
 .header-text h1{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:#fff;letter-spacing:2px;line-height:1}
@@ -26,77 +26,79 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#001a3a 0
 .sync-dot.error{background:var(--rojo)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .sync-text{color:var(--gris)}
-.main{max-width:1200px;margin:0 auto;padding:28px 20px 60px}
-.upload-section{background:rgba(255,255,255,.05);border:2px dashed rgba(0,166,81,.5);border-radius:20px;padding:32px;margin-bottom:28px;text-align:center;transition:border-color .3s,background .3s;position:relative}
-.upload-section.dragover{border-color:var(--verde);background:rgba(0,166,81,.1)}
-.upload-icon{font-size:3rem;margin-bottom:10px}
-.upload-section h2{color:#fff;font-size:1.1rem;font-weight:800;margin-bottom:6px}
-.upload-section p{color:var(--gris);font-size:.82rem}
-#fileInput{display:none}
-.btn-upload{display:inline-block;margin-top:14px;background:var(--verde);color:#fff;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;padding:10px 28px;border-radius:30px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px rgba(0,166,81,.35)}
-.btn-upload:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,166,81,.5)}
-#processingBar{display:none;background:rgba(255,255,255,.07);border-radius:14px;padding:18px 24px;margin-bottom:22px;border-left:4px solid var(--amarillo)}
-#processingBar .proc-title{color:var(--amarillo);font-weight:800;margin-bottom:8px;font-size:.9rem}
-.progress-track{background:rgba(255,255,255,.1);border-radius:6px;height:8px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--verde),var(--amarillo));border-radius:6px;transition:width .4s}
-#processingBar p{color:var(--gris);font-size:.8rem;margin-top:6px}
+.main{max-width:1100px;margin:0 auto;padding:28px 20px 60px}
 .nota-tesorero{background:rgba(255,193,7,.12);border:1px solid rgba(255,193,7,.4);border-radius:14px;padding:14px 20px;margin-bottom:22px;display:flex;align-items:flex-start;gap:12px}
 .nota-tesorero .icono{font-size:1.5rem;flex-shrink:0}
 .nota-tesorero p{color:#e0c060;font-size:.82rem;line-height:1.5}
 .nota-tesorero strong{color:var(--amarillo)}
-.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:22px}
-.sum-card{border-radius:16px;padding:20px}
+.form-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:28px;margin-bottom:28px}
+.form-card h2{color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:1px;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:20px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group label{color:var(--gris);font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.form-group input,.form-group select{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:10px;padding:10px 14px;color:#fff;font-family:'Nunito',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s}
+.form-group input::placeholder{color:rgba(255,255,255,.3)}
+.form-group input:focus,.form-group select:focus{border-color:var(--verde)}
+.form-group select option{background:#003366;color:#fff}
+.tipo-toggle{display:flex;gap:10px;margin-bottom:20px}
+.tipo-btn{flex:1;padding:12px;border-radius:12px;border:2px solid rgba(255,255,255,.15);background:transparent;color:var(--gris);font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;cursor:pointer;transition:all .2s;text-align:center}
+.tipo-btn.active-asegi{background:rgba(255,215,0,.15);border-color:var(--amarillo);color:var(--amarillo)}
+.tipo-btn.active-gen{background:rgba(0,166,81,.15);border-color:var(--verde);color:var(--verde-claro)}
+.btn-agregar{width:100%;padding:14px;background:var(--verde);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;border:none;border-radius:12px;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(0,166,81,.35)}
+.btn-agregar:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(0,166,81,.5)}
+.btn-agregar:disabled{background:#555;cursor:not-allowed;transform:none;box-shadow:none}
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:22px}
+.sum-card{border-radius:16px;padding:18px}
 .sum-card.pozo{background:linear-gradient(135deg,#003366,#0057A8);color:#fff}
 .sum-card.asegi-total{background:linear-gradient(135deg,#7B5E00,#C49A00);color:#fff}
 .sum-card.primero{background:linear-gradient(135deg,#856404,#D4A017);color:#fff}
 .sum-card.segundo{background:linear-gradient(135deg,#4a4a4a,#888);color:#fff}
 .sum-card.tercero{background:linear-gradient(135deg,#6B2D00,#B85C00);color:#fff}
-.sum-card .icon{font-size:1.8rem;margin-bottom:6px}
-.sum-card .lbl{font-size:.7rem;text-transform:uppercase;letter-spacing:1px;opacity:.8}
-.sum-card .val{font-family:'Bebas Neue',sans-serif;font-size:2rem;line-height:1.1}
-.sum-card .sub{font-size:.72rem;opacity:.7;margin-top:2px}
-.actions-bar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px;justify-content:flex-end}
-.btn{font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;padding:10px 22px;border-radius:30px;border:none;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
-.btn-green{background:var(--verde);color:#fff;box-shadow:0 3px 12px rgba(0,166,81,.35)}
+.sum-card .icon{font-size:1.6rem;margin-bottom:4px}
+.sum-card .lbl{font-size:.68rem;text-transform:uppercase;letter-spacing:1px;opacity:.8}
+.sum-card .val{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;line-height:1.1}
+.sum-card .sub{font-size:.68rem;opacity:.7;margin-top:2px}
+.actions-bar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;justify-content:flex-end}
+.btn{font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;padding:10px 20px;border-radius:30px;border:none;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
+.btn-green{background:var(--verde);color:#fff}
 .btn-green:hover{transform:translateY(-2px)}
-.btn-blue{background:var(--azul);color:#fff;box-shadow:0 3px 12px rgba(0,87,168,.35)}
+.btn-blue{background:var(--azul);color:#fff}
 .btn-blue:hover{transform:translateY(-2px)}
 .btn-red{background:#cc0000;color:#fff}
 .btn-outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.3)}
-.btn-outline:hover{border-color:#fff;background:rgba(255,255,255,.08)}
+.btn-outline:hover{border-color:#fff}
 .table-section{background:#fff;border-radius:20px;overflow:hidden;box-shadow:var(--sombra);margin-bottom:22px}
 .table-header-bar{background:linear-gradient(90deg,var(--azul-oscuro),var(--azul));padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .table-header-bar h3{color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px}
-.badge-asegi{background:var(--amarillo);color:var(--azul-oscuro);font-weight:900;font-size:.7rem;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:1px}
-.badge-gen{background:var(--verde);color:#fff;font-weight:900;font-size:.7rem;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:1px}
+.badge-asegi{background:var(--amarillo);color:var(--azul-oscuro);font-weight:900;font-size:.7rem;padding:3px 10px;border-radius:20px;text-transform:uppercase}
+.badge-gen{background:var(--verde);color:#fff;font-weight:900;font-size:.7rem;padding:3px 10px;border-radius:20px;text-transform:uppercase}
 table{width:100%;border-collapse:collapse}
 thead tr{background:#F0F4F8}
-thead th{padding:12px 14px;text-align:left;font-size:.72rem;font-weight:900;text-transform:uppercase;letter-spacing:1px;color:var(--azul-oscuro);border-bottom:2px solid #dde4ed}
+thead th{padding:11px 12px;text-align:left;font-size:.7rem;font-weight:900;text-transform:uppercase;letter-spacing:1px;color:var(--azul-oscuro);border-bottom:2px solid #dde4ed}
 tbody tr{border-bottom:1px solid #edf0f5;transition:background .15s}
 tbody tr:hover{background:#f8fbff}
-tbody td{padding:11px 14px;font-size:.83rem;color:#2a3a50;vertical-align:middle}
-.row-asegi td{background:linear-gradient(90deg,rgba(255,215,0,.06),transparent)}
-.btn-icon{background:none;border:none;cursor:pointer;font-size:1rem;padding:4px 6px;border-radius:6px;transition:background .15s}
+tbody td{padding:10px 12px;font-size:.82rem;color:#2a3a50;vertical-align:middle}
+.row-asegi td{background:linear-gradient(90deg,rgba(255,215,0,.07),transparent)}
+.btn-icon{background:none;border:none;cursor:pointer;font-size:.95rem;padding:4px 6px;border-radius:6px;transition:background .15s}
 .btn-icon:hover{background:#f0f0f0}
-#emptyState{text-align:center;padding:40px 20px;color:var(--gris)}
-#emptyState .big{font-size:3rem;margin-bottom:10px}
+.empty-state{text-align:center;padding:40px 20px;color:var(--gris)}
+.empty-state .big{font-size:3rem;margin-bottom:10px}
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center}
 .modal-overlay.show{display:flex}
-.modal{background:#fff;border-radius:20px;padding:30px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4);animation:popIn .3s ease}
+.modal{background:#fff;border-radius:20px;padding:28px;max-width:400px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4);animation:popIn .3s ease}
 @keyframes popIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
-.modal h3{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--azul-oscuro);margin:10px 0 8px;letter-spacing:1px}
-.modal p{color:#555;font-size:.88rem;margin-bottom:20px;line-height:1.5}
-.modal-icon{font-size:2.5rem}
+.modal h3{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--azul-oscuro);margin:8px 0;letter-spacing:1px}
+.modal p{color:#555;font-size:.86rem;margin-bottom:18px;line-height:1.5}
+.modal-icon{font-size:2.2rem}
 .modal-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.modal-empresa input,.modal-empresa select{width:100%;padding:10px 14px;border-radius:10px;border:2px solid #dde4ed;font-family:'Nunito',sans-serif;font-size:.9rem;margin-bottom:10px;outline:none}
-.modal-empresa input:focus,.modal-empresa select:focus{border-color:var(--azul)}
 .toast{position:fixed;bottom:24px;right:24px;background:var(--azul-oscuro);color:#fff;padding:12px 22px;border-radius:30px;font-size:.85rem;font-weight:700;border-left:4px solid var(--verde);box-shadow:0 6px 24px rgba(0,0,0,.3);z-index:2000;opacity:0;transform:translateY(20px);transition:all .3s}
 .toast.show{opacity:1;transform:translateY(0)}
 #exportCanvas{display:none}
-@media(max-width:600px){.header{padding:14px 16px}.header-text h1{font-size:1.4rem}.main{padding:16px 10px 50px}thead th,tbody td{padding:8px;font-size:.74rem}.sum-card .val{font-size:1.5rem}}
+@media(max-width:600px){.header{padding:14px 16px}.header-text h1{font-size:1.3rem}.main{padding:14px 10px 50px}thead th,tbody td{padding:8px;font-size:.72rem}.sum-card .val{font-size:1.4rem}}
 </style>
 </head>
 <body>
+
 <div class="header">
   <div class="logo-badge">⚽</div>
   <div class="header-text">
@@ -109,39 +111,84 @@ tbody td{padding:11px 14px;font-size:.83rem;color:#2a3a50;vertical-align:middle}
     <div class="stat-pill"><div class="num" id="statPozo" style="color:#00e676">Q0</div><div class="lbl">Pozo Total</div></div>
   </div>
 </div>
+
 <div class="sync-bar">
   <div class="sync-dot loading" id="syncDot"></div>
   <span class="sync-text" id="syncText">Conectando con la base de datos...</span>
 </div>
+
 <div class="main">
+
   <div class="nota-tesorero">
     <div class="icono">⚠️</div>
-    <p><strong>Nota para el Tesorero:</strong> Pagos de <strong>Q75.00</strong> = Asociado ASEGI (ASEGI aporta Q25.00 adicionales). Pagos de <strong>Q100.00</strong> = Colaborador General. <strong>Se recomienda doble verificación con la encargada de asociados.</strong></p>
+    <p><strong>Nota para el Tesorero:</strong> Seleccioná <strong>ASEGI</strong> si el participante pagó Q75.00 (ASEGI aporta Q25.00 adicionales). Seleccioná <strong>Colaborador General</strong> si pagó Q100.00. <strong>Verificar siempre con la encargada de asociados.</strong></p>
   </div>
-  <div class="upload-section" id="dropZone">
-    <div class="upload-icon">📸</div>
-    <h2>Subir Comprobante(s) de Pago</h2>
-    <p>Arrastrá imágenes aquí o hacé clic para seleccionar<br>Claude leerá automáticamente los datos del comprobante</p>
-    <input type="file" id="fileInput" accept="image/*" multiple>
-    <button class="btn-upload" onclick="document.getElementById('fileInput').click()">📎 Seleccionar Imágenes</button>
+
+  <!-- FORMULARIO -->
+  <div class="form-card">
+    <h2>➕ Registrar Participante</h2>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Nombre Completo</label>
+        <input type="text" id="inputNombre" placeholder="Ej: Juan García López">
+      </div>
+      <div class="form-group">
+        <label>Empresa / Área</label>
+        <select id="inputEmpresa">
+          <option value="">-- Seleccionar --</option>
+          <option value="ALOPSA">ALOPSA</option>
+          <option value="Caribe Gru">Caribe Gru</option>
+          <option value="Manabique">Manabique</option>
+          <option value="ESTRAHU">ESTRAHU</option>
+          <option value="PAHAME">PAHAME</option>
+          <option value="Corporación Interport">Corporación Interport</option>
+          <option value="ASEGI">ASEGI</option>
+          <option value="Otra">Otra área</option>
+        </select>
+      </div>
+      <div class="form-group" id="grupoEmpresaCustom" style="display:none">
+        <label>Especificar Área</label>
+        <input type="text" id="inputEmpresaCustom" placeholder="Ej: Recursos Humanos">
+      </div>
+      <div class="form-group">
+        <label>Monto Pagado</label>
+        <select id="inputMonto">
+          <option value="">-- Seleccionar --</option>
+          <option value="75">Q75.00 (Asociado ASEGI)</option>
+          <option value="100">Q100.00 (Colaborador General)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Fecha de Pago</label>
+        <input type="date" id="inputFecha">
+      </div>
+      <div class="form-group">
+        <label>No. Referencia (opcional)</label>
+        <input type="text" id="inputReferencia" placeholder="Ej: 123456789">
+      </div>
+    </div>
+    <button class="btn-agregar" id="btnAgregar" onclick="agregarParticipante()">
+      ✅ Registrar Participante
+    </button>
   </div>
-  <div id="processingBar">
-    <div class="proc-title">⚡ Analizando comprobante...</div>
-    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-    <p id="processingMsg">Extrayendo datos con Claude AI...</p>
-  </div>
+
+  <!-- ACCIONES -->
   <div class="actions-bar" id="actionsBar" style="display:none">
-    <button class="btn btn-outline" onclick="confirmarLimpiar()">🗑️ Limpiar Todo</button>
-    <button class="btn btn-blue" onclick="mostrarModalDescarga()">📥 Descargar Reporte</button>
-    <button class="btn btn-green" onclick="exportarImagen()">📱 Imagen para WhatsApp</button>
+    <button class="btn btn-outline" onclick="document.getElementById('modalLimpiar').classList.add('show')">🗑️ Limpiar Todo</button>
+    <button class="btn btn-blue" onclick="exportarCSV()">📊 Exportar CSV</button>
+    <button class="btn btn-green" onclick="exportarImagen()">📱 Imagen WhatsApp</button>
   </div>
+
+  <!-- RESUMEN -->
   <div class="summary-grid" id="summaryGrid" style="display:none">
     <div class="sum-card pozo"><div class="icon">🏆</div><div class="lbl">Pozo Total</div><div class="val" id="sumPozo">Q0.00</div><div class="sub">participantes × Q100</div></div>
-    <div class="sum-card asegi-total"><div class="icon">🤝</div><div class="lbl">Aporte Total ASEGI</div><div class="val" id="sumAsegi">Q0.00</div><div class="sub">Q25 × asociados ASEGI</div></div>
-    <div class="sum-card primero"><div class="icon">🥇</div><div class="lbl">1er Lugar (50%)</div><div class="val" id="sum1">Q0.00</div><div class="sub">Campeón</div></div>
-    <div class="sum-card segundo"><div class="icon">🥈</div><div class="lbl">2do Lugar (30%)</div><div class="val" id="sum2">Q0.00</div><div class="sub">Subcampeón</div></div>
-    <div class="sum-card tercero"><div class="icon">🥉</div><div class="lbl">3er Lugar (20%)</div><div class="val" id="sum3">Q0.00</div><div class="sub">3er Lugar</div></div>
+    <div class="sum-card asegi-total"><div class="icon">🤝</div><div class="lbl">Aporte ASEGI</div><div class="val" id="sumAsegi">Q0.00</div><div class="sub">Q25 × asociados</div></div>
+    <div class="sum-card primero"><div class="icon">🥇</div><div class="lbl">1er Lugar 50%</div><div class="val" id="sum1">Q0.00</div><div class="sub">Campeón</div></div>
+    <div class="sum-card segundo"><div class="icon">🥈</div><div class="lbl">2do Lugar 30%</div><div class="val" id="sum2">Q0.00</div><div class="sub">Subcampeón</div></div>
+    <div class="sum-card tercero"><div class="icon">🥉</div><div class="lbl">3er Lugar 20%</div><div class="val" id="sum3">Q0.00</div><div class="sub">3er Lugar</div></div>
   </div>
+
+  <!-- TABLA -->
   <div class="table-section">
     <div class="table-header-bar">
       <h3>📋 Registro de Participantes</h3>
@@ -149,54 +196,29 @@ tbody td{padding:11px 14px;font-size:.83rem;color:#2a3a50;vertical-align:middle}
     </div>
     <div style="overflow-x:auto">
       <table>
-        <thead><tr><th>#</th><th>Nombre</th><th>Empresa/Área</th><th>Tipo</th><th>Pago</th><th>Aporte ASEGI</th><th>Total Pozo</th><th>Fecha</th><th>Verif.</th><th></th></tr></thead>
-        <tbody id="tablaBody"><tr><td colspan="10"><div id="emptyState"><div class="big">⚽</div><p>Cargando datos...</p></div></td></tr></tbody>
+        <thead><tr><th>#</th><th>Nombre</th><th>Empresa/Área</th><th>Tipo</th><th>Pago</th><th>Aporte ASEGI</th><th>Total</th><th>Fecha</th><th>Verif.</th><th></th></tr></thead>
+        <tbody id="tablaBody">
+          <tr><td colspan="10"><div class="empty-state"><div class="big">⚽</div><p>Cargando datos...</p></div></td></tr>
+        </tbody>
       </table>
     </div>
   </div>
+
 </div>
 
-<div class="modal-overlay" id="modalDescarga">
-  <div class="modal">
-    <div class="modal-icon">📥</div><h3>Exportar Reporte</h3><p>¿Cómo querés exportar el registro?</p>
-    <div class="modal-actions">
-      <button class="btn btn-green" onclick="exportarImagen();cerrarModales()">📱 Imagen WhatsApp</button>
-      <button class="btn btn-blue" onclick="exportarCSV();cerrarModales()">📊 CSV / Excel</button>
-      <button class="btn btn-outline" style="color:#333;border-color:#ccc" onclick="cerrarModales()">Cancelar</button>
-    </div>
-  </div>
-</div>
-<div class="modal-overlay" id="modalEmpresa">
-  <div class="modal modal-empresa">
-    <div class="modal-icon">✏️</div><h3>Editar Participante</h3><p>Actualizá los datos del participante</p>
-    <input type="text" id="editNombre" placeholder="Nombre completo">
-    <select id="editEmpresa">
-      <option value="">-- Seleccionar empresa --</option>
-      <option value="ALOPSA">ALOPSA</option>
-      <option value="Caribe Gru">Caribe Gru</option>
-      <option value="Manabique">Manabique</option>
-      <option value="ESTRAHU">ESTRAHU</option>
-      <option value="PAHAME">PAHAME</option>
-      <option value="Corporación Interport">Corporación Interport</option>
-      <option value="ASEGI">ASEGI</option>
-      <option value="Otra">Otra área</option>
-    </select>
-    <input type="text" id="editEmpresaCustom" placeholder="Especificar área" style="display:none">
-    <div class="modal-actions">
-      <button class="btn btn-green" onclick="guardarEdicion()">💾 Guardar</button>
-      <button class="btn btn-outline" style="color:#333;border-color:#ccc" onclick="cerrarModales()">Cancelar</button>
-    </div>
-  </div>
-</div>
+<!-- MODAL LIMPIAR -->
 <div class="modal-overlay" id="modalLimpiar">
   <div class="modal">
-    <div class="modal-icon">⚠️</div><h3>¿Limpiar Todo?</h3><p>Eliminará <strong>todos los participantes</strong>. No se puede deshacer.</p>
+    <div class="modal-icon">⚠️</div>
+    <h3>¿Limpiar Todo?</h3>
+    <p>Eliminará <strong>todos los participantes</strong> de la base de datos. No se puede deshacer.</p>
     <div class="modal-actions">
       <button class="btn btn-red" onclick="limpiarTodo()">🗑️ Sí, eliminar todo</button>
       <button class="btn btn-outline" style="color:#333;border-color:#ccc" onclick="cerrarModales()">Cancelar</button>
     </div>
   </div>
 </div>
+
 <div class="toast" id="toast"></div>
 <canvas id="exportCanvas"></canvas>
 
@@ -206,27 +228,24 @@ const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSI
 const{createClient}=supabase;
 const db=createClient(SUPABASE_URL,SUPABASE_KEY);
 let participantes=[];
-let editandoId=null;
 
 async function init(){
-  setSyncStatus('loading','Conectando con la base de datos...');
+  setSyncStatus('loading','Conectando...');
   try{
     await cargarParticipantes();
     setSyncStatus('online','Conectado · '+new Date().toLocaleTimeString('es-GT'));
-    db.channel('participantes-changes')
-      .on('postgres_changes',{event:'*',schema:'public',table:'participantes'},()=>{
-        cargarParticipantes();
-        setSyncStatus('online','Sincronizado · '+new Date().toLocaleTimeString('es-GT'));
-      }).subscribe();
+    db.channel('cambios').on('postgres_changes',{event:'*',schema:'public',table:'participantes'},()=>{
+      cargarParticipantes();
+      setSyncStatus('online','Actualizado · '+new Date().toLocaleTimeString('es-GT'));
+    }).subscribe();
   }catch(e){
-    setSyncStatus('error','Error de conexión: '+e.message);
-    console.error(e);
+    setSyncStatus('error','Error: '+e.message);
   }
 }
 
-function setSyncStatus(estado,texto){
-  document.getElementById('syncDot').className='sync-dot '+estado;
-  document.getElementById('syncText').textContent=texto;
+function setSyncStatus(s,t){
+  document.getElementById('syncDot').className='sync-dot '+s;
+  document.getElementById('syncText').textContent=t;
 }
 
 async function cargarParticipantes(){
@@ -236,112 +255,84 @@ async function cargarParticipantes(){
   renderTabla();
 }
 
-const dropZone=document.getElementById('dropZone');
-dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('dragover')});
-dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('dragover'));
-dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.classList.remove('dragover');procesarArchivos([...e.dataTransfer.files])});
-dropZone.addEventListener('click',e=>{if(e.target.tagName!=='BUTTON')document.getElementById('fileInput').click()});
-document.getElementById('fileInput').addEventListener('change',e=>{procesarArchivos([...e.target.files]);e.target.value=''});
+document.getElementById('inputEmpresa').addEventListener('change',function(){
+  document.getElementById('grupoEmpresaCustom').style.display=this.value==='Otra'?'flex':'none';
+});
 
-async function procesarArchivos(files){
-  const imgs=files.filter(f=>f.type.startsWith('image/'));
-  if(!imgs.length){showToast('⚠️ Solo se aceptan imágenes');return}
-  for(let i=0;i<imgs.length;i++)await procesarImagen(imgs[i],i+1,imgs.length);
-}
+document.getElementById('inputMonto').addEventListener('change',function(){
+  // Auto-detectar tipo por monto
+});
 
-async function procesarImagen(file,idx,total){
-  const bar=document.getElementById('processingBar');
-  const fill=document.getElementById('progressFill');
-  const msg=document.getElementById('processingMsg');
-  bar.style.display='block';fill.style.width='20%';
-  msg.textContent=`Analizando comprobante ${idx} de ${total}`;
-  const base64=await fileToBase64(file);
-  fill.style.width='50%';msg.textContent='Claude AI leyendo el comprobante...';
-  setSyncStatus('loading','Procesando comprobante...');
+async function agregarParticipante(){
+  const nombre=document.getElementById('inputNombre').value.trim();
+  const empresaVal=document.getElementById('inputEmpresa').value;
+  const empresa=empresaVal==='Otra'?document.getElementById('inputEmpresaCustom').value.trim():empresaVal;
+  const monto=parseFloat(document.getElementById('inputMonto').value);
+  const fecha=document.getElementById('inputFecha').value;
+  const referencia=document.getElementById('inputReferencia').value.trim();
+
+  if(!nombre){showToast('⚠️ Ingresá el nombre del participante');return}
+  if(!empresa){showToast('⚠️ Seleccioná la empresa o área');return}
+  if(!monto){showToast('⚠️ Seleccioná el monto pagado');return}
+
+  const btn=document.getElementById('btnAgregar');
+  btn.disabled=true;btn.textContent='Guardando...';
+  setSyncStatus('loading','Guardando...');
+
+  const esAsegi=monto===75;
   try{
-    const resultado=await llamarClaudeAPI(base64,file.type);
-    fill.style.width='80%';msg.textContent='Guardando en la nube...';
-    if(resultado){
-      const monto=parseFloat(resultado.monto)||0;
-      const esAsegi=monto===75;
-      const{error}=await db.from('participantes').insert([{
-        nombre:resultado.nombre||'Por verificar',
-        empresa:resultado.empresa||'',
-        tipo:esAsegi?'ASEGI':'COLABORADOR',
-        monto:monto,aporte_asegi:esAsegi?25:0,
-        total_pozo:100,fecha:resultado.fecha||'',
-        referencia:resultado.referencia||''
-      }]);
-      if(error)throw error;
-      showToast('✅ '+(resultado.nombre||'Participante')+' guardado en la nube');
-      setSyncStatus('online','Guardado · '+new Date().toLocaleTimeString('es-GT'));
-    }else{
-      showToast('⚠️ No se extrajeron datos. Agregá manualmente.');
-      setSyncStatus('online','Listo');
-    }
-  }catch(err){
-    console.error(err);
-    showToast('❌ Error: '+err.message);
-    setSyncStatus('error','Error: '+err.message);
+    const{error}=await db.from('participantes').insert([{
+      nombre,empresa,
+      tipo:esAsegi?'ASEGI':'COLABORADOR',
+      monto,aporte_asegi:esAsegi?25:0,
+      total_pozo:100,
+      fecha:fecha||null,
+      referencia:referencia||null
+    }]);
+    if(error)throw error;
+    showToast('✅ '+nombre+' registrado exitosamente');
+    setSyncStatus('online','Guardado · '+new Date().toLocaleTimeString('es-GT'));
+    limpiarFormulario();
+  }catch(e){
+    showToast('❌ Error: '+e.message);
+    setSyncStatus('error','Error al guardar');
   }
-  fill.style.width='100%';
-  setTimeout(()=>{bar.style.display='none';fill.style.width='0%'},800);
+  btn.disabled=false;btn.textContent='✅ Registrar Participante';
 }
 
-function fileToBase64(file){
-  return new Promise((res,rej)=>{
-    const r=new FileReader();
-    r.onload=()=>res(r.result.split(',')[1]);
-    r.onerror=()=>rej(new Error('Error leyendo archivo'));
-    r.readAsDataURL(file);
-  });
-}
-
-async function llamarClaudeAPI(base64,mediaType){
-  const prompt=`Sos un asistente que extrae datos de comprobantes bancarios de Guatemala. Analizá la imagen y extraé: nombre del depositante, monto numérico, fecha DD/MM/YYYY, referencia. Si algo no está claro usá "Por verificar". Respondé ÚNICAMENTE con JSON válido sin texto extra: {"nombre":"...","monto":"...","fecha":"...","referencia":"..."}`;
-  const response=await fetch('https://api.anthropic.com/v1/messages',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({
-      model:'claude-sonnet-4-20250514',max_tokens:1000,
-      messages:[{role:'user',content:[
-        {type:'image',source:{type:'base64',media_type:mediaType,data:base64}},
-        {type:'text',text:prompt}
-      ]}]
-    })
-  });
-  const data=await response.json();
-  const texto=data.content?.find(b=>b.type==='text')?.text||'';
-  try{return JSON.parse(texto.replace(/```json|```/g,'').trim())}
-  catch{const m=texto.match(/\{[\s\S]*?\}/);return m?JSON.parse(m[0]):null}
+function limpiarFormulario(){
+  document.getElementById('inputNombre').value='';
+  document.getElementById('inputEmpresa').value='';
+  document.getElementById('inputMonto').value='';
+  document.getElementById('inputFecha').value='';
+  document.getElementById('inputReferencia').value='';
+  document.getElementById('inputEmpresaCustom').value='';
+  document.getElementById('grupoEmpresaCustom').style.display='none';
 }
 
 function renderTabla(){
   const tbody=document.getElementById('tablaBody');
-  const actionsBar=document.getElementById('actionsBar');
-  const summaryGrid=document.getElementById('summaryGrid');
+  const ab=document.getElementById('actionsBar');
+  const sg=document.getElementById('summaryGrid');
   if(!participantes.length){
-    tbody.innerHTML='<tr><td colspan="10"><div id="emptyState"><div class="big">⚽</div><p>Aún no hay participantes.<br>Subí el primer comprobante.</p></div></td></tr>';
-    actionsBar.style.display='none';summaryGrid.style.display='none';
+    tbody.innerHTML='<tr><td colspan="10"><div class="empty-state"><div class="big">⚽</div><p>Aún no hay participantes.<br>Registrá el primero arriba.</p></div></td></tr>';
+    ab.style.display='none';sg.style.display='none';
     actualizarStats(0,0,0);return;
   }
-  actionsBar.style.display='flex';summaryGrid.style.display='grid';
+  ab.style.display='flex';sg.style.display='grid';
   tbody.innerHTML=participantes.map((p,i)=>{
     const ea=p.tipo==='ASEGI';
     return`<tr class="${ea?'row-asegi':''}">
       <td style="font-family:'Bebas Neue',sans-serif;color:var(--gris)">${i+1}</td>
-      <td style="font-weight:800;color:var(--azul-oscuro)">${p.nombre||'—'}</td>
-      <td style="color:#4a6080;font-size:.78rem">${p.empresa||'<span style="color:#ccc;font-style:italic">Sin empresa</span>'}</td>
+      <td style="font-weight:800;color:#003366">${p.nombre||'—'}</td>
+      <td style="color:#4a6080;font-size:.78rem">${p.empresa||'—'}</td>
       <td>${ea?'<span class="badge-asegi">⭐ ASEGI</span>':'<span class="badge-gen">✅ Colaborador</span>'}</td>
-      <td style="font-weight:800;color:var(--verde)">Q${parseFloat(p.monto||0).toFixed(2)}</td>
-      <td style="font-weight:800;color:var(--azul)">${ea?'<strong>+Q25.00</strong>':'<span style="color:#ccc">—</span>'}</td>
+      <td style="font-weight:800;color:#00A651">Q${parseFloat(p.monto||0).toFixed(2)}</td>
+      <td style="font-weight:800;color:#0057A8">${ea?'+Q25.00':'<span style="color:#ccc">—</span>'}</td>
       <td style="font-weight:800">Q${parseFloat(p.total_pozo||100).toFixed(2)}</td>
-      <td style="font-size:.78rem;color:#4a6080">${p.fecha||'—'}</td>
+      <td style="font-size:.75rem;color:#4a6080">${p.fecha||'—'}</td>
       <td style="font-size:.72rem;color:${ea?'#cc0000':'#00A651'};font-weight:700">${ea?'⚠️ Verificar':'✅ OK'}</td>
-      <td>
-        <button class="btn-icon" onclick="abrirEdicion('${p.id}')">✏️</button>
-        <button class="btn-icon" onclick="eliminarParticipante('${p.id}','${(p.nombre||'').replace(/'/g,"\\'")}')">🗑️</button>
-      </td>
+      <td><button class="btn-icon" onclick="eliminar('${p.id}','${(p.nombre||'').replace(/'/g,"\\'")}')">🗑️</button></td>
     </tr>`;
   }).join('');
   const ta=participantes.filter(p=>p.tipo==='ASEGI').length;
@@ -364,54 +355,22 @@ function actualizarSummary(pozo,asegi){
   document.getElementById('sum3').textContent='Q'+(pozo*.2).toFixed(2);
 }
 
-function abrirEdicion(id){
-  const p=participantes.find(x=>x.id===id);if(!p)return;
-  editandoId=id;
-  document.getElementById('editNombre').value=p.nombre||'';
-  const sel=document.getElementById('editEmpresa');
-  const known=['ALOPSA','Caribe Gru','Manabique','ESTRAHU','PAHAME','Corporación Interport','ASEGI'];
-  if(known.includes(p.empresa)){sel.value=p.empresa;document.getElementById('editEmpresaCustom').style.display='none'}
-  else if(p.empresa){sel.value='Otra';document.getElementById('editEmpresaCustom').style.display='block';document.getElementById('editEmpresaCustom').value=p.empresa}
-  else sel.value='';
-  document.getElementById('modalEmpresa').classList.add('show');
-}
-
-document.getElementById('editEmpresa').addEventListener('change',function(){
-  document.getElementById('editEmpresaCustom').style.display=this.value==='Otra'?'block':'none';
-});
-
-async function guardarEdicion(){
-  const nombre=document.getElementById('editNombre').value.trim();
-  const selVal=document.getElementById('editEmpresa').value;
-  const empresa=selVal==='Otra'?document.getElementById('editEmpresaCustom').value.trim():selVal;
-  if(!editandoId)return;
-  setSyncStatus('loading','Guardando...');
-  const{error}=await db.from('participantes').update({nombre,empresa}).eq('id',editandoId);
-  if(error){showToast('❌ Error al guardar');return}
-  cerrarModales();showToast('✅ Actualizado en la nube');
-  setSyncStatus('online','Actualizado · '+new Date().toLocaleTimeString('es-GT'));
-  editandoId=null;
-}
-
-async function eliminarParticipante(id,nombre){
-  if(!confirm('¿Eliminar a '+nombre+'?\nSe eliminará para todos los usuarios.'))return;
+async function eliminar(id,nombre){
+  if(!confirm('¿Eliminar a '+nombre+'?'))return;
   setSyncStatus('loading','Eliminando...');
   const{error}=await db.from('participantes').delete().eq('id',id);
-  if(error){showToast('❌ Error al eliminar');return}
-  showToast('🗑️ Eliminado');
+  if(error){showToast('❌ Error');return}
+  showToast('🗑️ '+nombre+' eliminado');
   setSyncStatus('online','Actualizado · '+new Date().toLocaleTimeString('es-GT'));
 }
 
-function confirmarLimpiar(){document.getElementById('modalLimpiar').classList.add('show')}
-
 async function limpiarTodo(){
-  cerrarModales();setSyncStatus('loading','Eliminando todo...');
+  cerrarModales();setSyncStatus('loading','Limpiando...');
   const{error}=await db.from('participantes').delete().neq('id','00000000-0000-0000-0000-000000000000');
   if(error){showToast('❌ Error');return}
   showToast('🗑️ Lista limpiada');setSyncStatus('online','Listo');
 }
 
-function mostrarModalDescarga(){document.getElementById('modalDescarga').classList.add('show')}
 function cerrarModales(){document.querySelectorAll('.modal-overlay').forEach(m=>m.classList.remove('show'))}
 document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)cerrarModales()}));
 
@@ -420,8 +379,8 @@ function exportarCSV(){
   const r=participantes.map((p,i)=>[i+1,p.nombre,p.empresa||'',p.tipo,'Q'+parseFloat(p.monto||0).toFixed(2),p.tipo==='ASEGI'?'Q25.00':'Q0.00','Q100.00',p.fecha||'',p.referencia||'']);
   const csv=[h,...r].map(row=>row.map(c=>'"'+c+'"').join(',')).join('\n');
   const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download='InterQuiniela2026_'+Date.now()+'.csv';a.click();URL.revokeObjectURL(url);
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='InterQuiniela2026_'+Date.now()+'.csv';a.click();
   showToast('📊 CSV descargado');
 }
 
@@ -429,75 +388,74 @@ async function exportarImagen(){
   if(!participantes.length){showToast('⚠️ No hay participantes');return}
   const canvas=document.getElementById('exportCanvas');
   const ctx=canvas.getContext('2d');
-  const W=900,headerH=150,rowH=44,summaryH=130,footerH=70;
-  const H=headerH+rowH*(participantes.length+1)+summaryH+footerH+40;
+  const W=900,hH=150,rH=44,sH=130,fH=70;
+  const H=hH+rH*(participantes.length+1)+sH+fH+40;
   canvas.width=W;canvas.height=H;
   const g=ctx.createLinearGradient(0,0,0,H);
   g.addColorStop(0,'#001a3a');g.addColorStop(1,'#003366');
   ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
-  ctx.fillStyle='rgba(0,166,81,.15)';ctx.fillRect(0,0,W,headerH);
-  ctx.fillStyle='#00A651';ctx.fillRect(0,headerH-3,W,3);
-  ctx.fillStyle='#FFF';ctx.font='bold 34px Arial Black';ctx.textAlign='center';
-  ctx.fillText('⚽ INTER QUINIELA MUNDIAL 2026',W/2,48);
-  ctx.font='15px Arial';ctx.fillStyle='#8A9BB0';
-  ctx.fillText('Registro de Participantes · ASEGI · Corporación Interport',W/2,74);
-  const fecha=new Date().toLocaleDateString('es-GT',{day:'2-digit',month:'long',year:'numeric'});
+  ctx.fillStyle='rgba(0,166,81,.15)';ctx.fillRect(0,0,W,hH);
+  ctx.fillStyle='#00A651';ctx.fillRect(0,hH-3,W,3);
+  ctx.fillStyle='#FFF';ctx.font='bold 32px Arial Black';ctx.textAlign='center';
+  ctx.fillText('⚽ INTER QUINIELA MUNDIAL 2026',W/2,46);
+  ctx.font='14px Arial';ctx.fillStyle='#8A9BB0';
+  ctx.fillText('Registro de Participantes · ASEGI · Corporación Interport',W/2,70);
+  const fe=new Date().toLocaleDateString('es-GT',{day:'2-digit',month:'long',year:'numeric'});
   ctx.fillStyle='#FFD700';ctx.font='bold 13px Arial';
-  ctx.fillText('Actualizado: '+fecha+' · Total: '+participantes.length+' participantes',W/2,100);
+  ctx.fillText('Actualizado: '+fe+' · Total: '+participantes.length+' participantes',W/2,96);
   const ta=participantes.filter(p=>p.tipo==='ASEGI').length;
-  const pozo=participantes.length*100;
+  const pz=participantes.length*100;
   ctx.fillStyle='#00e676';
-  ctx.fillText('Pozo Total: Q'+pozo.toFixed(2)+' · Aporte ASEGI: Q'+(ta*25).toFixed(2),W/2,124);
-  let y=headerH+10;
-  const colX=[10,60,285,415,505,605,700,795];
-  const hdrs=['#','Nombre','Empresa','Tipo','Pago','ASEGI+','Total','Fecha'];
-  ctx.fillStyle='#0057A8';ctx.fillRect(0,y,W,rowH);
+  ctx.fillText('Pozo Total: Q'+pz.toFixed(2)+' · Aporte ASEGI: Q'+(ta*25).toFixed(2),W/2,120);
+  let y=hH+10;
+  const cx=[10,55,275,405,495,590,685,780];
+  ['#','Nombre','Empresa','Tipo','Pago','ASEGI+','Total','Fecha'].forEach((h,i)=>{
+    ctx.fillStyle=i===0?'#0057A8':'#0057A8';
+  });
+  ctx.fillStyle='#0057A8';ctx.fillRect(0,y,W,rH);
   ctx.fillStyle='#FFF';ctx.font='bold 12px Arial';ctx.textAlign='left';
-  hdrs.forEach((h,i)=>ctx.fillText(h,colX[i]+4,y+28));y+=rowH;
+  ['#','Nombre','Empresa','Tipo','Pago','ASEGI+','Total','Fecha'].forEach((h,i)=>ctx.fillText(h,cx[i]+4,y+28));
+  y+=rH;
   participantes.forEach((p,i)=>{
     const ea=p.tipo==='ASEGI';
     ctx.fillStyle=ea?'rgba(255,215,0,.08)':(i%2===0?'rgba(255,255,255,.04)':'rgba(255,255,255,.02)');
-    ctx.fillRect(0,y,W,rowH);
-    ctx.fillStyle='#8A9BB0';ctx.font='bold 12px Arial';ctx.textAlign='left';
-    ctx.fillText(String(i+1),colX[0]+4,y+28);
-    ctx.fillStyle='#FFF';ctx.font='bold 12px Arial';
-    ctx.fillText(trunc(p.nombre||'—',20),colX[1]+4,y+28);
-    ctx.fillStyle='#7090B0';ctx.font='11px Arial';
-    ctx.fillText(trunc(p.empresa||'—',14),colX[2]+4,y+28);
+    ctx.fillRect(0,y,W,rH);
+    ctx.fillStyle='#8A9BB0';ctx.font='bold 11px Arial';ctx.textAlign='left';ctx.fillText(String(i+1),cx[0]+4,y+27);
+    ctx.fillStyle='#FFF';ctx.font='bold 12px Arial';ctx.fillText(tr(p.nombre||'—',21),cx[1]+4,y+27);
+    ctx.fillStyle='#7090B0';ctx.font='11px Arial';ctx.fillText(tr(p.empresa||'—',15),cx[2]+4,y+27);
     ctx.beginPath();
-    if(ea){ctx.fillStyle='#FFD700';rr(ctx,colX[3]+2,y+9,76,22,10);ctx.fill();ctx.fillStyle='#003366';ctx.font='bold 9px Arial';ctx.textAlign='center';ctx.fillText('⭐ ASEGI',colX[3]+40,y+25)}
-    else{ctx.fillStyle='#00A651';rr(ctx,colX[3]+2,y+9,76,22,10);ctx.fill();ctx.fillStyle='#FFF';ctx.font='bold 9px Arial';ctx.textAlign='center';ctx.fillText('✅ GENERAL',colX[3]+40,y+25)}
+    if(ea){ctx.fillStyle='#FFD700';rr(ctx,cx[3]+2,y+9,74,22,10);ctx.fill();ctx.fillStyle='#003366';ctx.font='bold 9px Arial';ctx.textAlign='center';ctx.fillText('⭐ ASEGI',cx[3]+39,y+25)}
+    else{ctx.fillStyle='#00A651';rr(ctx,cx[3]+2,y+9,74,22,10);ctx.fill();ctx.fillStyle='#FFF';ctx.font='bold 9px Arial';ctx.textAlign='center';ctx.fillText('✅ GENERAL',cx[3]+39,y+25)}
     ctx.textAlign='left';
-    ctx.fillStyle='#00e676';ctx.font='bold 12px Arial';ctx.fillText('Q'+parseFloat(p.monto||0).toFixed(2),colX[4]+4,y+28);
-    ctx.fillStyle=ea?'#FFD700':'#4a6080';ctx.fillText(ea?'+Q25.00':'—',colX[5]+4,y+28);
-    ctx.fillStyle='#FFF';ctx.fillText('Q100.00',colX[6]+4,y+28);
-    ctx.fillStyle='#7090B0';ctx.font='11px Arial';ctx.fillText(p.fecha||'—',colX[7]+4,y+28);
-    ctx.strokeStyle='rgba(255,255,255,.06)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,y+rowH);ctx.lineTo(W,y+rowH);ctx.stroke();
-    y+=rowH;
+    ctx.fillStyle='#00e676';ctx.font='bold 12px Arial';ctx.fillText('Q'+parseFloat(p.monto||0).toFixed(2),cx[4]+4,y+27);
+    ctx.fillStyle=ea?'#FFD700':'#4a6080';ctx.fillText(ea?'+Q25':'—',cx[5]+4,y+27);
+    ctx.fillStyle='#FFF';ctx.fillText('Q100',cx[6]+4,y+27);
+    ctx.fillStyle='#7090B0';ctx.font='10px Arial';ctx.fillText(p.fecha||'—',cx[7]+4,y+27);
+    ctx.strokeStyle='rgba(255,255,255,.06)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,y+rH);ctx.lineTo(W,y+rH);ctx.stroke();
+    y+=rH;
   });
-  y+=16;
-  ctx.fillStyle='rgba(0,166,81,.15)';rr(ctx,10,y,W-20,summaryH,14);ctx.fill();
-  ctx.strokeStyle='#00A651';ctx.lineWidth=1.5;rr(ctx,10,y,W-20,summaryH,14);ctx.stroke();
+  y+=14;
+  ctx.fillStyle='rgba(0,166,81,.15)';rr(ctx,10,y,W-20,sH,14);ctx.fill();
+  ctx.strokeStyle='#00A651';ctx.lineWidth=1.5;rr(ctx,10,y,W-20,sH,14);ctx.stroke();
   ctx.fillStyle='#00A651';ctx.font='bold 14px Arial';ctx.textAlign='center';
   ctx.fillText('DISTRIBUCIÓN DEL POZO',W/2,y+24);
-  [{icon:'🥇',label:'1er Lugar (50%)',val:'Q'+(pozo*.5).toFixed(2),color:'#FFD700'},{icon:'🥈',label:'2do Lugar (30%)',val:'Q'+(pozo*.3).toFixed(2),color:'#C0C0C0'},{icon:'🥉',label:'3er Lugar (20%)',val:'Q'+(pozo*.2).toFixed(2),color:'#CD7F32'}].forEach((pr,i)=>{
-    const px=150+i*210;ctx.fillStyle=pr.color;ctx.font='bold 13px Arial';ctx.textAlign='center';
-    ctx.fillText(pr.icon+' '+pr.label,px,y+55);ctx.font='bold 20px Arial Black';ctx.fillText(pr.val,px,y+82);
+  [{icon:'🥇',l:'1er Lugar (50%)',v:'Q'+(pz*.5).toFixed(2),c:'#FFD700'},{icon:'🥈',l:'2do Lugar (30%)',v:'Q'+(pz*.3).toFixed(2),c:'#C0C0C0'},{icon:'🥉',l:'3er Lugar (20%)',v:'Q'+(pz*.2).toFixed(2),c:'#CD7F32'}].forEach((pr,i)=>{
+    const px=150+i*210;ctx.fillStyle=pr.c;ctx.font='bold 13px Arial';ctx.textAlign='center';
+    ctx.fillText(pr.icon+' '+pr.l,px,y+52);ctx.font='bold 20px Arial Black';ctx.fillText(pr.v,px,y+80);
   });
-  ctx.fillStyle='#FFD700';ctx.font='bold 12px Arial';ctx.textAlign='center';
-  ctx.fillText('Aporte ASEGI: Q'+(ta*25).toFixed(2)+' ('+ta+' asociados × Q25)',W/2,y+110);
-  y+=summaryH+10;
-  ctx.fillStyle='rgba(255,255,255,.05)';ctx.fillRect(0,y,W,footerH);
+  ctx.fillStyle='#FFD700';ctx.font='bold 11px Arial';ctx.textAlign='center';
+  ctx.fillText('Aporte ASEGI: Q'+(ta*25).toFixed(2)+' ('+ta+' asociados × Q25)',W/2,y+108);
+  y+=sH+10;
+  ctx.fillStyle='rgba(255,255,255,.04)';ctx.fillRect(0,y,W,fH);
   ctx.fillStyle='#4a6060';ctx.font='11px Arial';ctx.textAlign='center';
-  ctx.fillText('⚠️ Pendiente doble verificación de estatus ASEGI con encargada de asociados',W/2,y+24);
-  ctx.fillStyle='#2a4060';ctx.fillText('Inter Quiniela Mundial 2026 · ASEGI · Corporación Interport Group, S.A.',W/2,y+46);
-  const link=document.createElement('a');link.download='InterQuiniela2026_'+Date.now()+'.png';link.href=canvas.toDataURL('image/png');link.click();
-  showToast('📱 Imagen descargada para WhatsApp');
+  ctx.fillText('⚠️ Pendiente verificación de estatus ASEGI con encargada de asociados',W/2,y+22);
+  ctx.fillStyle='#2a4060';ctx.fillText('Inter Quiniela Mundial 2026 · ASEGI · Corporación Interport Group, S.A.',W/2,y+44);
+  const lnk=document.createElement('a');lnk.download='InterQuiniela2026_'+Date.now()+'.png';lnk.href=canvas.toDataURL('image/png');lnk.click();
+  showToast('📱 Imagen lista para WhatsApp');
 }
 
-function trunc(t,max){return t&&t.length>max?t.substring(0,max-1)+'…':t}
+function tr(t,max){return t&&t.length>max?t.substring(0,max-1)+'…':t}
 function rr(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.arcTo(x+w,y,x+w,y+r,r);ctx.lineTo(x+w,y+h-r);ctx.arcTo(x+w,y+h,x+w-r,y+h,r);ctx.lineTo(x+r,y+h);ctx.arcTo(x,y+h,x,y+h-r,r);ctx.lineTo(x,y+r);ctx.arcTo(x,y,x+r,y,r);ctx.closePath()}
-
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200)}
 
 init();
