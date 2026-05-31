@@ -7,196 +7,96 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-  :root {
-    --verde: #00A651;
-    --verde-claro: #39D353;
-    --azul-oscuro: #003366;
-    --azul: #0057A8;
-    --amarillo: #FFD700;
-    --rojo: #CC0000;
-    --blanco: #FFFFFF;
-    --gris-claro: #F0F4F8;
-    --gris: #8A9BB0;
-    --sombra: 0 4px 24px rgba(0,51,102,0.13);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Nunito', sans-serif;
-    background: linear-gradient(135deg, #001a3a 0%, #003366 40%, #004080 100%);
-    min-height: 100vh;
-    color: #1a2a3a;
-  }
-
-  /* HEADER */
-  .header {
-    background: linear-gradient(90deg, #001a3a 0%, #003366 50%, #001a3a 100%);
-    border-bottom: 3px solid var(--verde);
-    padding: 18px 30px;
-    display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
-  }
-  .logo-badge {
-    width: 64px; height: 64px; background: var(--verde); border-radius: 50%;
-    display: flex; align-items: center; justify-content: center; font-size: 28px;
-    box-shadow: 0 0 0 4px rgba(0,166,81,0.3); flex-shrink: 0;
-  }
-  .header-text h1 { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--blanco); letter-spacing: 2px; line-height: 1; }
-  .header-text h1 span { color: var(--verde-claro); }
-  .header-text p { color: var(--gris); font-size: 0.82rem; margin-top: 2px; }
-  .header-stats { margin-left: auto; display: flex; gap: 18px; flex-wrap: wrap; }
-  .stat-pill {
-    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 12px; padding: 8px 16px; text-align: center; min-width: 90px;
-  }
-  .stat-pill .num { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--amarillo); line-height: 1; }
-  .stat-pill .lbl { font-size: 0.68rem; color: var(--gris); text-transform: uppercase; letter-spacing: 1px; }
-
-  /* SYNC STATUS */
-  .sync-bar {
-    background: rgba(0,0,0,0.3); padding: 8px 30px;
-    display: flex; align-items: center; gap: 10px; font-size: 0.78rem;
-  }
-  .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: #666; flex-shrink: 0; }
-  .sync-dot.online { background: var(--verde); box-shadow: 0 0 6px var(--verde); animation: pulse 2s infinite; }
-  .sync-dot.loading { background: var(--amarillo); animation: pulse 0.5s infinite; }
-  .sync-dot.error { background: var(--rojo); }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-  .sync-text { color: var(--gris); }
-
-  /* MAIN */
-  .main { max-width: 1200px; margin: 0 auto; padding: 28px 20px 60px; }
-
-  /* UPLOAD ZONE */
-  .upload-section {
-    background: rgba(255,255,255,0.05); border: 2px dashed rgba(0,166,81,0.5);
-    border-radius: 20px; padding: 32px; margin-bottom: 28px; text-align: center;
-    transition: border-color 0.3s, background 0.3s; position: relative;
-  }
-  .upload-section.dragover { border-color: var(--verde); background: rgba(0,166,81,0.1); }
-  .upload-icon { font-size: 3rem; margin-bottom: 10px; }
-  .upload-section h2 { color: var(--blanco); font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; }
-  .upload-section p { color: var(--gris); font-size: 0.82rem; }
-  #fileInput { display: none; }
-  .btn-upload {
-    display: inline-block; margin-top: 14px; background: var(--verde); color: var(--blanco);
-    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.9rem;
-    padding: 10px 28px; border-radius: 30px; border: none; cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 14px rgba(0,166,81,0.35);
-  }
-  .btn-upload:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,166,81,0.5); }
-
-  /* PROCESSING */
-  #processingBar {
-    display: none; background: rgba(255,255,255,0.07); border-radius: 14px;
-    padding: 18px 24px; margin-bottom: 22px; border-left: 4px solid var(--amarillo);
-  }
-  #processingBar .proc-title { color: var(--amarillo); font-weight: 800; margin-bottom: 8px; font-size: 0.9rem; }
-  .progress-track { background: rgba(255,255,255,0.1); border-radius: 6px; height: 8px; overflow: hidden; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--verde), var(--amarillo)); border-radius: 6px; transition: width 0.4s; }
-  #processingBar p { color: var(--gris); font-size: 0.8rem; margin-top: 6px; }
-
-  /* NOTA TESORERO */
-  .nota-tesorero {
-    background: rgba(255,193,7,0.12); border: 1px solid rgba(255,193,7,0.4);
-    border-radius: 14px; padding: 14px 20px; margin-bottom: 22px;
-    display: flex; align-items: flex-start; gap: 12px;
-  }
-  .nota-tesorero .icono { font-size: 1.5rem; flex-shrink: 0; }
-  .nota-tesorero p { color: #e0c060; font-size: 0.82rem; line-height: 1.5; }
-  .nota-tesorero strong { color: var(--amarillo); }
-
-  /* SUMMARY */
-  .summary-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px; margin-bottom: 22px;
-  }
-  .sum-card { border-radius: 16px; padding: 20px; position: relative; overflow: hidden; }
-  .sum-card.pozo { background: linear-gradient(135deg, #003366, #0057A8); color: white; }
-  .sum-card.asegi-total { background: linear-gradient(135deg, #7B5E00, #C49A00); color: white; }
-  .sum-card.primero { background: linear-gradient(135deg, #856404, #D4A017); color: white; }
-  .sum-card.segundo { background: linear-gradient(135deg, #4a4a4a, #888); color: white; }
-  .sum-card.tercero { background: linear-gradient(135deg, #6B2D00, #B85C00); color: white; }
-  .sum-card .icon { font-size: 1.8rem; margin-bottom: 6px; }
-  .sum-card .lbl { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; }
-  .sum-card .val { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; line-height: 1.1; }
-  .sum-card .sub { font-size: 0.72rem; opacity: 0.7; margin-top: 2px; }
-
-  /* ACTIONS */
-  .actions-bar { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; justify-content: flex-end; }
-  .btn {
-    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.85rem;
-    padding: 10px 22px; border-radius: 30px; border: none; cursor: pointer;
-    transition: all 0.2s; display: flex; align-items: center; gap: 6px;
-  }
-  .btn-green { background: var(--verde); color: white; box-shadow: 0 3px 12px rgba(0,166,81,0.35); }
-  .btn-green:hover { transform: translateY(-2px); box-shadow: 0 5px 18px rgba(0,166,81,0.5); }
-  .btn-blue { background: var(--azul); color: white; box-shadow: 0 3px 12px rgba(0,87,168,0.35); }
-  .btn-blue:hover { transform: translateY(-2px); }
-  .btn-red { background: #cc0000; color: white; }
-  .btn-outline { background: transparent; color: var(--blanco); border: 2px solid rgba(255,255,255,0.3); }
-  .btn-outline:hover { border-color: var(--blanco); background: rgba(255,255,255,0.08); }
-
-  /* TABLA */
-  .table-section { background: var(--blanco); border-radius: 20px; overflow: hidden; box-shadow: var(--sombra); margin-bottom: 22px; }
-  .table-header-bar {
-    background: linear-gradient(90deg, var(--azul-oscuro), var(--azul));
-    padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
-  }
-  .table-header-bar h3 { color: var(--blanco); font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 1px; }
-  .badge-asegi { background: var(--amarillo); color: var(--azul-oscuro); font-weight: 900; font-size: 0.7rem; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px; }
-  .badge-gen { background: var(--verde); color: var(--blanco); font-weight: 900; font-size: 0.7rem; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px; }
-  table { width: 100%; border-collapse: collapse; }
-  thead tr { background: #F0F4F8; }
-  thead th { padding: 12px 14px; text-align: left; font-size: 0.72rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: var(--azul-oscuro); border-bottom: 2px solid #dde4ed; }
-  tbody tr { border-bottom: 1px solid #edf0f5; transition: background 0.15s; }
-  tbody tr:hover { background: #f8fbff; }
-  tbody td { padding: 11px 14px; font-size: 0.83rem; color: #2a3a50; vertical-align: middle; }
-  .num-col { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: var(--gris); }
-  .nombre-col { font-weight: 800; color: var(--azul-oscuro); }
-  .monto-col { font-weight: 800; color: var(--verde); font-size: 0.9rem; }
-  .aporte-col { font-weight: 800; color: var(--azul); font-size: 0.9rem; }
-  .row-asegi td { background: linear-gradient(90deg, rgba(255,215,0,0.06), transparent); }
-  .btn-icon { background: none; border: none; cursor: pointer; font-size: 1rem; padding: 4px 6px; border-radius: 6px; transition: background 0.15s; }
-  .btn-icon:hover { background: #f0f0f0; }
-
-  /* EMPTY */
-  #emptyState { text-align: center; padding: 40px 20px; color: var(--gris); }
-  #emptyState .big { font-size: 3rem; margin-bottom: 10px; }
-
-  /* MODAL */
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
-  .modal-overlay.show { display: flex; }
-  .modal { background: white; border-radius: 20px; padding: 30px; max-width: 420px; width: 90%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.4); animation: popIn 0.3s ease; }
-  @keyframes popIn { from{transform:scale(0.8);opacity:0} to{transform:scale(1);opacity:1} }
-  .modal h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--azul-oscuro); margin: 10px 0 8px; letter-spacing: 1px; }
-  .modal p { color: #555; font-size: 0.88rem; margin-bottom: 20px; line-height: 1.5; }
-  .modal-icon { font-size: 2.5rem; }
-  .modal-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-
-  /* MODAL EMPRESA */
-  .modal-empresa input, .modal-empresa select {
-    width: 100%; padding: 10px 14px; border-radius: 10px; border: 2px solid #dde4ed;
-    font-family: 'Nunito', sans-serif; font-size: 0.9rem; margin-bottom: 10px; outline: none;
-  }
-  .modal-empresa input:focus, .modal-empresa select:focus { border-color: var(--azul); }
-
-  /* TOAST */
-  .toast { position: fixed; bottom: 24px; right: 24px; background: var(--azul-oscuro); color: white; padding: 12px 22px; border-radius: 30px; font-size: 0.85rem; font-weight: 700; border-left: 4px solid var(--verde); box-shadow: 0 6px 24px rgba(0,0,0,0.3); z-index: 2000; opacity: 0; transform: translateY(20px); transition: all 0.3s; }
-  .toast.show { opacity: 1; transform: translateY(0); }
-
-  #exportCanvas { display: none; }
-
-  @media (max-width: 600px) {
-    .header { padding: 14px 16px; }
-    .header-text h1 { font-size: 1.4rem; }
-    .main { padding: 16px 10px 50px; }
-    thead th, tbody td { padding: 8px 8px; font-size: 0.74rem; }
-    .sum-card .val { font-size: 1.5rem; }
-  }
+:root{--verde:#00A651;--verde-claro:#39D353;--azul-oscuro:#003366;--azul:#0057A8;--amarillo:#FFD700;--rojo:#CC0000;--blanco:#FFFFFF;--gris:#8A9BB0;--sombra:0 4px 24px rgba(0,51,102,0.13)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#001a3a 0%,#003366 40%,#004080 100%);min-height:100vh;color:#1a2a3a}
+.header{background:linear-gradient(90deg,#001a3a,#003366,#001a3a);border-bottom:3px solid var(--verde);padding:18px 30px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.logo-badge{width:64px;height:64px;background:var(--verde);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 0 0 4px rgba(0,166,81,0.3);flex-shrink:0}
+.header-text h1{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:#fff;letter-spacing:2px;line-height:1}
+.header-text h1 span{color:var(--verde-claro)}
+.header-text p{color:var(--gris);font-size:.82rem;margin-top:2px}
+.header-stats{margin-left:auto;display:flex;gap:18px;flex-wrap:wrap}
+.stat-pill{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:8px 16px;text-align:center;min-width:90px}
+.stat-pill .num{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--amarillo);line-height:1}
+.stat-pill .lbl{font-size:.68rem;color:var(--gris);text-transform:uppercase;letter-spacing:1px}
+.sync-bar{background:rgba(0,0,0,.3);padding:8px 30px;display:flex;align-items:center;gap:10px;font-size:.78rem}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:#666;flex-shrink:0}
+.sync-dot.online{background:var(--verde);box-shadow:0 0 6px var(--verde);animation:pulse 2s infinite}
+.sync-dot.loading{background:var(--amarillo);animation:pulse .5s infinite}
+.sync-dot.error{background:var(--rojo)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.sync-text{color:var(--gris)}
+.main{max-width:1200px;margin:0 auto;padding:28px 20px 60px}
+.upload-section{background:rgba(255,255,255,.05);border:2px dashed rgba(0,166,81,.5);border-radius:20px;padding:32px;margin-bottom:28px;text-align:center;transition:border-color .3s,background .3s;position:relative}
+.upload-section.dragover{border-color:var(--verde);background:rgba(0,166,81,.1)}
+.upload-icon{font-size:3rem;margin-bottom:10px}
+.upload-section h2{color:#fff;font-size:1.1rem;font-weight:800;margin-bottom:6px}
+.upload-section p{color:var(--gris);font-size:.82rem}
+#fileInput{display:none}
+.btn-upload{display:inline-block;margin-top:14px;background:var(--verde);color:#fff;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;padding:10px 28px;border-radius:30px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px rgba(0,166,81,.35)}
+.btn-upload:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,166,81,.5)}
+#processingBar{display:none;background:rgba(255,255,255,.07);border-radius:14px;padding:18px 24px;margin-bottom:22px;border-left:4px solid var(--amarillo)}
+#processingBar .proc-title{color:var(--amarillo);font-weight:800;margin-bottom:8px;font-size:.9rem}
+.progress-track{background:rgba(255,255,255,.1);border-radius:6px;height:8px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--verde),var(--amarillo));border-radius:6px;transition:width .4s}
+#processingBar p{color:var(--gris);font-size:.8rem;margin-top:6px}
+.nota-tesorero{background:rgba(255,193,7,.12);border:1px solid rgba(255,193,7,.4);border-radius:14px;padding:14px 20px;margin-bottom:22px;display:flex;align-items:flex-start;gap:12px}
+.nota-tesorero .icono{font-size:1.5rem;flex-shrink:0}
+.nota-tesorero p{color:#e0c060;font-size:.82rem;line-height:1.5}
+.nota-tesorero strong{color:var(--amarillo)}
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:22px}
+.sum-card{border-radius:16px;padding:20px}
+.sum-card.pozo{background:linear-gradient(135deg,#003366,#0057A8);color:#fff}
+.sum-card.asegi-total{background:linear-gradient(135deg,#7B5E00,#C49A00);color:#fff}
+.sum-card.primero{background:linear-gradient(135deg,#856404,#D4A017);color:#fff}
+.sum-card.segundo{background:linear-gradient(135deg,#4a4a4a,#888);color:#fff}
+.sum-card.tercero{background:linear-gradient(135deg,#6B2D00,#B85C00);color:#fff}
+.sum-card .icon{font-size:1.8rem;margin-bottom:6px}
+.sum-card .lbl{font-size:.7rem;text-transform:uppercase;letter-spacing:1px;opacity:.8}
+.sum-card .val{font-family:'Bebas Neue',sans-serif;font-size:2rem;line-height:1.1}
+.sum-card .sub{font-size:.72rem;opacity:.7;margin-top:2px}
+.actions-bar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px;justify-content:flex-end}
+.btn{font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;padding:10px 22px;border-radius:30px;border:none;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
+.btn-green{background:var(--verde);color:#fff;box-shadow:0 3px 12px rgba(0,166,81,.35)}
+.btn-green:hover{transform:translateY(-2px)}
+.btn-blue{background:var(--azul);color:#fff;box-shadow:0 3px 12px rgba(0,87,168,.35)}
+.btn-blue:hover{transform:translateY(-2px)}
+.btn-red{background:#cc0000;color:#fff}
+.btn-outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.3)}
+.btn-outline:hover{border-color:#fff;background:rgba(255,255,255,.08)}
+.table-section{background:#fff;border-radius:20px;overflow:hidden;box-shadow:var(--sombra);margin-bottom:22px}
+.table-header-bar{background:linear-gradient(90deg,var(--azul-oscuro),var(--azul));padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.table-header-bar h3{color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px}
+.badge-asegi{background:var(--amarillo);color:var(--azul-oscuro);font-weight:900;font-size:.7rem;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:1px}
+.badge-gen{background:var(--verde);color:#fff;font-weight:900;font-size:.7rem;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:1px}
+table{width:100%;border-collapse:collapse}
+thead tr{background:#F0F4F8}
+thead th{padding:12px 14px;text-align:left;font-size:.72rem;font-weight:900;text-transform:uppercase;letter-spacing:1px;color:var(--azul-oscuro);border-bottom:2px solid #dde4ed}
+tbody tr{border-bottom:1px solid #edf0f5;transition:background .15s}
+tbody tr:hover{background:#f8fbff}
+tbody td{padding:11px 14px;font-size:.83rem;color:#2a3a50;vertical-align:middle}
+.row-asegi td{background:linear-gradient(90deg,rgba(255,215,0,.06),transparent)}
+.btn-icon{background:none;border:none;cursor:pointer;font-size:1rem;padding:4px 6px;border-radius:6px;transition:background .15s}
+.btn-icon:hover{background:#f0f0f0}
+#emptyState{text-align:center;padding:40px 20px;color:var(--gris)}
+#emptyState .big{font-size:3rem;margin-bottom:10px}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:#fff;border-radius:20px;padding:30px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4);animation:popIn .3s ease}
+@keyframes popIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+.modal h3{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--azul-oscuro);margin:10px 0 8px;letter-spacing:1px}
+.modal p{color:#555;font-size:.88rem;margin-bottom:20px;line-height:1.5}
+.modal-icon{font-size:2.5rem}
+.modal-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.modal-empresa input,.modal-empresa select{width:100%;padding:10px 14px;border-radius:10px;border:2px solid #dde4ed;font-family:'Nunito',sans-serif;font-size:.9rem;margin-bottom:10px;outline:none}
+.modal-empresa input:focus,.modal-empresa select:focus{border-color:var(--azul)}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--azul-oscuro);color:#fff;padding:12px 22px;border-radius:30px;font-size:.85rem;font-weight:700;border-left:4px solid var(--verde);box-shadow:0 6px 24px rgba(0,0,0,.3);z-index:2000;opacity:0;transform:translateY(20px);transition:all .3s}
+.toast.show{opacity:1;transform:translateY(0)}
+#exportCanvas{display:none}
+@media(max-width:600px){.header{padding:14px 16px}.header-text h1{font-size:1.4rem}.main{padding:16px 10px 50px}thead th,tbody td{padding:8px;font-size:.74rem}.sum-card .val{font-size:1.5rem}}
 </style>
 </head>
 <body>
-
-<!-- HEADER -->
 <div class="header">
   <div class="logo-badge">⚽</div>
   <div class="header-text">
@@ -204,37 +104,20 @@
     <p>Sistema de Registro · ASEGI · Corporación Interport · Datos en la nube ☁️</p>
   </div>
   <div class="header-stats">
-    <div class="stat-pill">
-      <div class="num" id="statTotal">0</div>
-      <div class="lbl">Participantes</div>
-    </div>
-    <div class="stat-pill">
-      <div class="num" id="statAsegi">0</div>
-      <div class="lbl">Asociados ASEGI</div>
-    </div>
-    <div class="stat-pill">
-      <div class="num" id="statPozo" style="color:#00e676;">Q0</div>
-      <div class="lbl">Pozo Total</div>
-    </div>
+    <div class="stat-pill"><div class="num" id="statTotal">0</div><div class="lbl">Participantes</div></div>
+    <div class="stat-pill"><div class="num" id="statAsegi">0</div><div class="lbl">Asociados ASEGI</div></div>
+    <div class="stat-pill"><div class="num" id="statPozo" style="color:#00e676">Q0</div><div class="lbl">Pozo Total</div></div>
   </div>
 </div>
-
-<!-- SYNC BAR -->
 <div class="sync-bar">
   <div class="sync-dot loading" id="syncDot"></div>
   <span class="sync-text" id="syncText">Conectando con la base de datos...</span>
 </div>
-
-<!-- MAIN -->
 <div class="main">
-
-  <!-- NOTA TESORERO -->
   <div class="nota-tesorero">
     <div class="icono">⚠️</div>
-    <p><strong>Nota para el Tesorero:</strong> Pagos de <strong>Q75.00</strong> = Asociado ASEGI (ASEGI aporta Q25.00 adicionales). Pagos de <strong>Q100.00</strong> = Colaborador General. <strong>Se recomienda doble verificación con la encargada de asociados.</strong> Los datos se guardan en la nube y son visibles para todos los usuarios del sistema.</p>
+    <p><strong>Nota para el Tesorero:</strong> Pagos de <strong>Q75.00</strong> = Asociado ASEGI (ASEGI aporta Q25.00 adicionales). Pagos de <strong>Q100.00</strong> = Colaborador General. <strong>Se recomienda doble verificación con la encargada de asociados.</strong></p>
   </div>
-
-  <!-- UPLOAD -->
   <div class="upload-section" id="dropZone">
     <div class="upload-icon">📸</div>
     <h2>Subir Comprobante(s) de Pago</h2>
@@ -242,99 +125,50 @@
     <input type="file" id="fileInput" accept="image/*" multiple>
     <button class="btn-upload" onclick="document.getElementById('fileInput').click()">📎 Seleccionar Imágenes</button>
   </div>
-
-  <!-- PROCESANDO -->
   <div id="processingBar">
     <div class="proc-title">⚡ Analizando comprobante...</div>
     <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
     <p id="processingMsg">Extrayendo datos con Claude AI...</p>
   </div>
-
-  <!-- ACCIONES -->
-  <div class="actions-bar" id="actionsBar" style="display:none;">
+  <div class="actions-bar" id="actionsBar" style="display:none">
     <button class="btn btn-outline" onclick="confirmarLimpiar()">🗑️ Limpiar Todo</button>
     <button class="btn btn-blue" onclick="mostrarModalDescarga()">📥 Descargar Reporte</button>
     <button class="btn btn-green" onclick="exportarImagen()">📱 Imagen para WhatsApp</button>
   </div>
-
-  <!-- RESUMEN POZO -->
-  <div class="summary-grid" id="summaryGrid" style="display:none;">
-    <div class="sum-card pozo">
-      <div class="icon">🏆</div><div class="lbl">Pozo Total</div>
-      <div class="val" id="sumPozo">Q0.00</div><div class="sub">100% participantes × Q100</div>
-    </div>
-    <div class="sum-card asegi-total">
-      <div class="icon">🤝</div><div class="lbl">Aporte Total ASEGI</div>
-      <div class="val" id="sumAsegi">Q0.00</div><div class="sub">Q25 × asociados ASEGI</div>
-    </div>
-    <div class="sum-card primero">
-      <div class="icon">🥇</div><div class="lbl">1er Lugar (50%)</div>
-      <div class="val" id="sum1">Q0.00</div><div class="sub">Campeón</div>
-    </div>
-    <div class="sum-card segundo">
-      <div class="icon">🥈</div><div class="lbl">2do Lugar (30%)</div>
-      <div class="val" id="sum2">Q0.00</div><div class="sub">Subcampeón</div>
-    </div>
-    <div class="sum-card tercero">
-      <div class="icon">🥉</div><div class="lbl">3er Lugar (20%)</div>
-      <div class="val" id="sum3">Q0.00</div><div class="sub">3er Lugar</div>
-    </div>
+  <div class="summary-grid" id="summaryGrid" style="display:none">
+    <div class="sum-card pozo"><div class="icon">🏆</div><div class="lbl">Pozo Total</div><div class="val" id="sumPozo">Q0.00</div><div class="sub">participantes × Q100</div></div>
+    <div class="sum-card asegi-total"><div class="icon">🤝</div><div class="lbl">Aporte Total ASEGI</div><div class="val" id="sumAsegi">Q0.00</div><div class="sub">Q25 × asociados ASEGI</div></div>
+    <div class="sum-card primero"><div class="icon">🥇</div><div class="lbl">1er Lugar (50%)</div><div class="val" id="sum1">Q0.00</div><div class="sub">Campeón</div></div>
+    <div class="sum-card segundo"><div class="icon">🥈</div><div class="lbl">2do Lugar (30%)</div><div class="val" id="sum2">Q0.00</div><div class="sub">Subcampeón</div></div>
+    <div class="sum-card tercero"><div class="icon">🥉</div><div class="lbl">3er Lugar (20%)</div><div class="val" id="sum3">Q0.00</div><div class="sub">3er Lugar</div></div>
   </div>
-
-  <!-- TABLA -->
   <div class="table-section">
     <div class="table-header-bar">
       <h3>📋 Registro de Participantes</h3>
-      <div style="display:flex;gap:8px;align-items:center;">
-        <span class="badge-asegi">⭐ ASEGI</span>
-        <span class="badge-gen">✅ Colaborador</span>
-      </div>
+      <div style="display:flex;gap:8px;align-items:center"><span class="badge-asegi">⭐ ASEGI</span><span class="badge-gen">✅ Colaborador</span></div>
     </div>
-    <div style="overflow-x:auto;">
+    <div style="overflow-x:auto">
       <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Nombre Completo</th>
-            <th>Empresa / Área</th>
-            <th>Tipo</th>
-            <th>Pago Realizado</th>
-            <th>Aporte ASEGI</th>
-            <th>Total al Pozo</th>
-            <th>Fecha</th>
-            <th>Verificación</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="tablaBody">
-          <tr><td colspan="10"><div id="emptyState"><div class="big">⚽</div><p>Cargando datos...</p></div></td></tr>
-        </tbody>
+        <thead><tr><th>#</th><th>Nombre</th><th>Empresa/Área</th><th>Tipo</th><th>Pago</th><th>Aporte ASEGI</th><th>Total Pozo</th><th>Fecha</th><th>Verif.</th><th></th></tr></thead>
+        <tbody id="tablaBody"><tr><td colspan="10"><div id="emptyState"><div class="big">⚽</div><p>Cargando datos...</p></div></td></tr></tbody>
       </table>
     </div>
   </div>
-
 </div>
 
-<!-- MODAL DESCARGA -->
 <div class="modal-overlay" id="modalDescarga">
   <div class="modal">
-    <div class="modal-icon">📥</div>
-    <h3>Exportar Reporte</h3>
-    <p>¿Cómo querés exportar el registro?</p>
+    <div class="modal-icon">📥</div><h3>Exportar Reporte</h3><p>¿Cómo querés exportar el registro?</p>
     <div class="modal-actions">
       <button class="btn btn-green" onclick="exportarImagen();cerrarModales()">📱 Imagen WhatsApp</button>
       <button class="btn btn-blue" onclick="exportarCSV();cerrarModales()">📊 CSV / Excel</button>
-      <button class="btn btn-outline" style="color:#333;border-color:#ccc;" onclick="cerrarModales()">Cancelar</button>
+      <button class="btn btn-outline" style="color:#333;border-color:#ccc" onclick="cerrarModales()">Cancelar</button>
     </div>
   </div>
 </div>
-
-<!-- MODAL EMPRESA -->
 <div class="modal-overlay" id="modalEmpresa">
   <div class="modal modal-empresa">
-    <div class="modal-icon">✏️</div>
-    <h3>Editar Participante</h3>
-    <p>Actualizá los datos del participante</p>
+    <div class="modal-icon">✏️</div><h3>Editar Participante</h3><p>Actualizá los datos del participante</p>
     <input type="text" id="editNombre" placeholder="Nombre completo">
     <select id="editEmpresa">
       <option value="">-- Seleccionar empresa --</option>
@@ -347,465 +181,324 @@
       <option value="ASEGI">ASEGI</option>
       <option value="Otra">Otra área</option>
     </select>
-    <input type="text" id="editEmpresaCustom" placeholder="Especificar área (si seleccionó Otra)" style="display:none;">
+    <input type="text" id="editEmpresaCustom" placeholder="Especificar área" style="display:none">
     <div class="modal-actions">
       <button class="btn btn-green" onclick="guardarEdicion()">💾 Guardar</button>
-      <button class="btn btn-outline" style="color:#333;border-color:#ccc;" onclick="cerrarModales()">Cancelar</button>
+      <button class="btn btn-outline" style="color:#333;border-color:#ccc" onclick="cerrarModales()">Cancelar</button>
     </div>
   </div>
 </div>
-
-<!-- MODAL CONFIRMAR LIMPIAR -->
 <div class="modal-overlay" id="modalLimpiar">
   <div class="modal">
-    <div class="modal-icon">⚠️</div>
-    <h3>¿Limpiar Todo?</h3>
-    <p>Esta acción eliminará <strong>todos los participantes</strong> de la base de datos. No se puede deshacer.</p>
+    <div class="modal-icon">⚠️</div><h3>¿Limpiar Todo?</h3><p>Eliminará <strong>todos los participantes</strong>. No se puede deshacer.</p>
     <div class="modal-actions">
       <button class="btn btn-red" onclick="limpiarTodo()">🗑️ Sí, eliminar todo</button>
-      <button class="btn btn-outline" style="color:#333;border-color:#ccc;" onclick="cerrarModales()">Cancelar</button>
+      <button class="btn btn-outline" style="color:#333;border-color:#ccc" onclick="cerrarModales()">Cancelar</button>
     </div>
   </div>
 </div>
-
 <div class="toast" id="toast"></div>
 <canvas id="exportCanvas"></canvas>
 
 <script>
-// ── SUPABASE CONFIG ──
-const SUPABASE_URL = 'https://bbowgpvbymwbcmzqjrbc.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJib3dncHZieW13YmNtenFqcmJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAyMzM5MDQsImV4cCI6MjA5NTgwOTkwNH0.WueFMGHcNUI--a2vMn_OS7p02PvYr8T_jMUGdwl2bmM';
-const { createClient } = supabase;
-const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+const SUPABASE_URL='https://bbowgpvbymwbcmzqjrbc.supabase.co';
+const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJib3dncHZieW13YmNtenFqcmJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAyMzM5MDQsImV4cCI6MjA5NTgwOTkwNH0.WueFMGHcNUI--a2vMn_OS7p02PvYr8T_jMUGdwl2bmM';
+const{createClient}=supabase;
+const db=createClient(SUPABASE_URL,SUPABASE_KEY);
+let participantes=[];
+let editandoId=null;
 
-let participantes = [];
-let editandoId = null;
-
-// ── INIT ──
-async function init() {
-  setSyncStatus('loading', 'Conectando con la base de datos...');
-  try {
+async function init(){
+  setSyncStatus('loading','Conectando con la base de datos...');
+  try{
     await cargarParticipantes();
-    setSyncStatus('online', `Conectado · Última actualización: ${new Date().toLocaleTimeString('es-GT')}`);
-
-    // Suscripción en tiempo real
+    setSyncStatus('online','Conectado · '+new Date().toLocaleTimeString('es-GT'));
     db.channel('participantes-changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'participantes' }, () => {
+      .on('postgres_changes',{event:'*',schema:'public',table:'participantes'},()=>{
         cargarParticipantes();
-        setSyncStatus('online', `Sincronizado · ${new Date().toLocaleTimeString('es-GT')}`);
-      })
-      .subscribe();
-
-  } catch(e) {
-    setSyncStatus('error', 'Error de conexión. Verificá tu internet.');
+        setSyncStatus('online','Sincronizado · '+new Date().toLocaleTimeString('es-GT'));
+      }).subscribe();
+  }catch(e){
+    setSyncStatus('error','Error de conexión: '+e.message);
     console.error(e);
   }
 }
 
-function setSyncStatus(estado, texto) {
-  const dot = document.getElementById('syncDot');
-  const txt = document.getElementById('syncText');
-  dot.className = 'sync-dot ' + estado;
-  txt.textContent = texto;
+function setSyncStatus(estado,texto){
+  document.getElementById('syncDot').className='sync-dot '+estado;
+  document.getElementById('syncText').textContent=texto;
 }
 
-// ── CARGAR DATOS ──
-async function cargarParticipantes() {
-  const { data, error } = await db
-    .from('participantes')
-    .select('*')
-    .order('created_at', { ascending: true });
-  if (error) throw error;
-  participantes = data || [];
+async function cargarParticipantes(){
+  const{data,error}=await db.from('participantes').select('*').order('created_at',{ascending:true});
+  if(error)throw error;
+  participantes=data||[];
   renderTabla();
 }
 
-// ── DRAG & DROP ──
-const dropZone = document.getElementById('dropZone');
-dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
-dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('dragover'); procesarArchivos([...e.dataTransfer.files]); });
-dropZone.addEventListener('click', e => { if(e.target.tagName !== 'BUTTON') document.getElementById('fileInput').click(); });
-document.getElementById('fileInput').addEventListener('change', e => { procesarArchivos([...e.target.files]); e.target.value=''; });
+const dropZone=document.getElementById('dropZone');
+dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('dragover')});
+dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.classList.remove('dragover');procesarArchivos([...e.dataTransfer.files])});
+dropZone.addEventListener('click',e=>{if(e.target.tagName!=='BUTTON')document.getElementById('fileInput').click()});
+document.getElementById('fileInput').addEventListener('change',e=>{procesarArchivos([...e.target.files]);e.target.value=''});
 
-// ── PROCESAR ARCHIVOS ──
-async function procesarArchivos(files) {
-  const imgs = files.filter(f => f.type.startsWith('image/'));
-  if (!imgs.length) { showToast('⚠️ Solo se aceptan imágenes'); return; }
-  for (let i = 0; i < imgs.length; i++) {
-    await procesarImagen(imgs[i], i+1, imgs.length);
-  }
+async function procesarArchivos(files){
+  const imgs=files.filter(f=>f.type.startsWith('image/'));
+  if(!imgs.length){showToast('⚠️ Solo se aceptan imágenes');return}
+  for(let i=0;i<imgs.length;i++)await procesarImagen(imgs[i],i+1,imgs.length);
 }
 
-async function procesarImagen(file, idx, total) {
-  const bar = document.getElementById('processingBar');
-  const fill = document.getElementById('progressFill');
-  const msg = document.getElementById('processingMsg');
-  bar.style.display = 'block';
-  fill.style.width = '20%';
-  msg.textContent = `Analizando comprobante ${idx} de ${total}: ${file.name}`;
-
-  const base64 = await fileToBase64(file);
-  fill.style.width = '50%';
-  msg.textContent = 'Claude AI está leyendo los datos del comprobante...';
-  setSyncStatus('loading', 'Procesando comprobante...');
-
-  try {
-    const resultado = await llamarClaudeAPI(base64, file.type);
-    fill.style.width = '80%';
-    msg.textContent = 'Guardando en la base de datos...';
-
-    if (resultado) {
-      const monto = parseFloat(resultado.monto) || 0;
-      const esAsegi = monto === 75;
-      const registro = {
-        nombre: resultado.nombre || 'Por verificar',
-        empresa: resultado.empresa || '',
-        tipo: esAsegi ? 'ASEGI' : 'COLABORADOR',
-        monto: monto,
-        aporte_asegi: esAsegi ? 25 : 0,
-        total_pozo: 100,
-        fecha: resultado.fecha || '',
-        referencia: resultado.referencia || ''
-      };
-
-      const { error } = await db.from('participantes').insert([registro]);
-      if (error) throw error;
-
-      showToast(`✅ ${registro.nombre} registrado y guardado en la nube`);
-      setSyncStatus('online', `Guardado · ${new Date().toLocaleTimeString('es-GT')}`);
-    } else {
-      showToast('⚠️ No se pudieron extraer los datos. Agregalo manualmente.');
-      setSyncStatus('online', 'Listo');
+async function procesarImagen(file,idx,total){
+  const bar=document.getElementById('processingBar');
+  const fill=document.getElementById('progressFill');
+  const msg=document.getElementById('processingMsg');
+  bar.style.display='block';fill.style.width='20%';
+  msg.textContent=`Analizando comprobante ${idx} de ${total}`;
+  const base64=await fileToBase64(file);
+  fill.style.width='50%';msg.textContent='Claude AI leyendo el comprobante...';
+  setSyncStatus('loading','Procesando comprobante...');
+  try{
+    const resultado=await llamarClaudeAPI(base64,file.type);
+    fill.style.width='80%';msg.textContent='Guardando en la nube...';
+    if(resultado){
+      const monto=parseFloat(resultado.monto)||0;
+      const esAsegi=monto===75;
+      const{error}=await db.from('participantes').insert([{
+        nombre:resultado.nombre||'Por verificar',
+        empresa:resultado.empresa||'',
+        tipo:esAsegi?'ASEGI':'COLABORADOR',
+        monto:monto,aporte_asegi:esAsegi?25:0,
+        total_pozo:100,fecha:resultado.fecha||'',
+        referencia:resultado.referencia||''
+      }]);
+      if(error)throw error;
+      showToast('✅ '+(resultado.nombre||'Participante')+' guardado en la nube');
+      setSyncStatus('online','Guardado · '+new Date().toLocaleTimeString('es-GT'));
+    }else{
+      showToast('⚠️ No se extrajeron datos. Agregá manualmente.');
+      setSyncStatus('online','Listo');
     }
-  } catch(err) {
+  }catch(err){
     console.error(err);
-    showToast('❌ Error al guardar. Verificá la conexión.');
-    setSyncStatus('error', 'Error al guardar');
+    showToast('❌ Error: '+err.message);
+    setSyncStatus('error','Error: '+err.message);
   }
-
-  fill.style.width = '100%';
-  setTimeout(() => { bar.style.display = 'none'; fill.style.width = '0%'; }, 800);
+  fill.style.width='100%';
+  setTimeout(()=>{bar.style.display='none';fill.style.width='0%'},800);
 }
 
-async function fileToBase64(file) {
-  return new Promise((res, rej) => {
-    const r = new FileReader();
-    r.onload = () => res(r.result.split(',')[1]);
-    r.onerror = () => rej(new Error('Error leyendo archivo'));
+function fileToBase64(file){
+  return new Promise((res,rej)=>{
+    const r=new FileReader();
+    r.onload=()=>res(r.result.split(',')[1]);
+    r.onerror=()=>rej(new Error('Error leyendo archivo'));
     r.readAsDataURL(file);
   });
 }
 
-// ── CLAUDE API ──
-async function llamarClaudeAPI(base64, mediaType) {
-  const prompt = `Sos un asistente que extrae datos de comprobantes de pago bancarios de Guatemala (transferencias, depósitos, pagos móviles).
-
-Analizá esta imagen y extraé ÚNICAMENTE:
-1. nombre: Nombre completo del depositante/remitente
-2. monto: Solo el número del monto (ej: 75, 100)
-3. fecha: Fecha en formato DD/MM/YYYY
-4. referencia: Número de referencia o transacción
-
-Reglas:
-- Si el nombre no está claro, usá "Por verificar"
-- Respondé ÚNICAMENTE con JSON válido, sin texto extra, sin markdown
-- Formato exacto: {"nombre":"...","monto":"...","fecha":"...","referencia":"..."}`;
-
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1000,
-      messages: [{
-        role: 'user',
-        content: [
-          { type: 'image', source: { type: 'base64', media_type: mediaType, data: base64 } },
-          { type: 'text', text: prompt }
-        ]
-      }]
+async function llamarClaudeAPI(base64,mediaType){
+  const prompt=`Sos un asistente que extrae datos de comprobantes bancarios de Guatemala. Analizá la imagen y extraé: nombre del depositante, monto numérico, fecha DD/MM/YYYY, referencia. Si algo no está claro usá "Por verificar". Respondé ÚNICAMENTE con JSON válido sin texto extra: {"nombre":"...","monto":"...","fecha":"...","referencia":"..."}`;
+  const response=await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      model:'claude-sonnet-4-20250514',max_tokens:1000,
+      messages:[{role:'user',content:[
+        {type:'image',source:{type:'base64',media_type:mediaType,data:base64}},
+        {type:'text',text:prompt}
+      ]}]
     })
   });
-
-  const data = await response.json();
-  const texto = data.content?.find(b => b.type === 'text')?.text || '';
-  try {
-    const clean = texto.replace(/```json|```/g, '').trim();
-    return JSON.parse(clean);
-  } catch {
-    const match = texto.match(/\{[\s\S]*?\}/);
-    if (match) return JSON.parse(match[0]);
-    return null;
-  }
+  const data=await response.json();
+  const texto=data.content?.find(b=>b.type==='text')?.text||'';
+  try{return JSON.parse(texto.replace(/```json|```/g,'').trim())}
+  catch{const m=texto.match(/\{[\s\S]*?\}/);return m?JSON.parse(m[0]):null}
 }
 
-// ── RENDER TABLA ──
-function renderTabla() {
-  const tbody = document.getElementById('tablaBody');
-  const actionsBar = document.getElementById('actionsBar');
-  const summaryGrid = document.getElementById('summaryGrid');
-
-  if (!participantes.length) {
-    tbody.innerHTML = `<tr><td colspan="10"><div id="emptyState"><div class="big">⚽</div><p>Aún no hay participantes registrados.<br>Subí el primer comprobante para comenzar.</p></div></td></tr>`;
-    actionsBar.style.display = 'none';
-    summaryGrid.style.display = 'none';
-    actualizarStats(0, 0, 0);
-    return;
+function renderTabla(){
+  const tbody=document.getElementById('tablaBody');
+  const actionsBar=document.getElementById('actionsBar');
+  const summaryGrid=document.getElementById('summaryGrid');
+  if(!participantes.length){
+    tbody.innerHTML='<tr><td colspan="10"><div id="emptyState"><div class="big">⚽</div><p>Aún no hay participantes.<br>Subí el primer comprobante.</p></div></td></tr>';
+    actionsBar.style.display='none';summaryGrid.style.display='none';
+    actualizarStats(0,0,0);return;
   }
-
-  actionsBar.style.display = 'flex';
-  summaryGrid.style.display = 'grid';
-
-  tbody.innerHTML = participantes.map((p, i) => {
-    const esAsegi = p.tipo === 'ASEGI';
-    return `<tr class="${esAsegi ? 'row-asegi' : ''}">
-      <td class="num-col">${i+1}</td>
-      <td class="nombre-col">${p.nombre || '—'}</td>
-      <td style="color:#4a6080;font-size:0.78rem;">${p.empresa || '<span style="color:#ccc;font-style:italic;">Sin empresa</span>'}</td>
-      <td>${esAsegi ? '<span class="badge-asegi">⭐ ASEGI</span>' : '<span class="badge-gen">✅ Colaborador</span>'}</td>
-      <td class="monto-col">Q${parseFloat(p.monto||0).toFixed(2)}</td>
-      <td class="aporte-col">${esAsegi ? '<strong>+ Q25.00</strong>' : '<span style="color:#ccc;">—</span>'}</td>
-      <td style="font-weight:800;">Q${parseFloat(p.total_pozo||100).toFixed(2)}</td>
-      <td style="font-size:0.78rem;color:#4a6080;">${p.fecha || '—'}</td>
-      <td style="font-size:0.72rem;color:${esAsegi?'#cc0000':'#00A651'};font-weight:700;">${esAsegi ? '⚠️ Verificar' : '✅ OK'}</td>
+  actionsBar.style.display='flex';summaryGrid.style.display='grid';
+  tbody.innerHTML=participantes.map((p,i)=>{
+    const ea=p.tipo==='ASEGI';
+    return`<tr class="${ea?'row-asegi':''}">
+      <td style="font-family:'Bebas Neue',sans-serif;color:var(--gris)">${i+1}</td>
+      <td style="font-weight:800;color:var(--azul-oscuro)">${p.nombre||'—'}</td>
+      <td style="color:#4a6080;font-size:.78rem">${p.empresa||'<span style="color:#ccc;font-style:italic">Sin empresa</span>'}</td>
+      <td>${ea?'<span class="badge-asegi">⭐ ASEGI</span>':'<span class="badge-gen">✅ Colaborador</span>'}</td>
+      <td style="font-weight:800;color:var(--verde)">Q${parseFloat(p.monto||0).toFixed(2)}</td>
+      <td style="font-weight:800;color:var(--azul)">${ea?'<strong>+Q25.00</strong>':'<span style="color:#ccc">—</span>'}</td>
+      <td style="font-weight:800">Q${parseFloat(p.total_pozo||100).toFixed(2)}</td>
+      <td style="font-size:.78rem;color:#4a6080">${p.fecha||'—'}</td>
+      <td style="font-size:.72rem;color:${ea?'#cc0000':'#00A651'};font-weight:700">${ea?'⚠️ Verificar':'✅ OK'}</td>
       <td>
-        <button class="btn-icon" title="Editar" onclick="abrirEdicion('${p.id}')">✏️</button>
-        <button class="btn-icon" title="Eliminar" onclick="eliminarParticipante('${p.id}', '${(p.nombre||'').replace(/'/g,"\\'")}')">🗑️</button>
+        <button class="btn-icon" onclick="abrirEdicion('${p.id}')">✏️</button>
+        <button class="btn-icon" onclick="eliminarParticipante('${p.id}','${(p.nombre||'').replace(/'/g,"\\'")}')">🗑️</button>
       </td>
     </tr>`;
   }).join('');
-
-  const totalAsegi = participantes.filter(p => p.tipo === 'ASEGI').length;
-  const aporteAsegi = totalAsegi * 25;
-  const pozoTotal = participantes.length * 100;
-  actualizarStats(participantes.length, totalAsegi, pozoTotal);
-  actualizarSummary(pozoTotal, aporteAsegi);
+  const ta=participantes.filter(p=>p.tipo==='ASEGI').length;
+  const pozo=participantes.length*100;
+  actualizarStats(participantes.length,ta,pozo);
+  actualizarSummary(pozo,ta*25);
 }
 
-function actualizarStats(total, asegi, pozo) {
-  document.getElementById('statTotal').textContent = total;
-  document.getElementById('statAsegi').textContent = asegi;
-  document.getElementById('statPozo').textContent = 'Q' + pozo.toLocaleString();
+function actualizarStats(t,a,p){
+  document.getElementById('statTotal').textContent=t;
+  document.getElementById('statAsegi').textContent=a;
+  document.getElementById('statPozo').textContent='Q'+p.toLocaleString();
 }
 
-function actualizarSummary(pozo, aporteAsegi) {
-  document.getElementById('sumPozo').textContent = 'Q' + pozo.toFixed(2);
-  document.getElementById('sumAsegi').textContent = 'Q' + aporteAsegi.toFixed(2);
-  document.getElementById('sum1').textContent = 'Q' + (pozo * 0.5).toFixed(2);
-  document.getElementById('sum2').textContent = 'Q' + (pozo * 0.3).toFixed(2);
-  document.getElementById('sum3').textContent = 'Q' + (pozo * 0.2).toFixed(2);
+function actualizarSummary(pozo,asegi){
+  document.getElementById('sumPozo').textContent='Q'+pozo.toFixed(2);
+  document.getElementById('sumAsegi').textContent='Q'+asegi.toFixed(2);
+  document.getElementById('sum1').textContent='Q'+(pozo*.5).toFixed(2);
+  document.getElementById('sum2').textContent='Q'+(pozo*.3).toFixed(2);
+  document.getElementById('sum3').textContent='Q'+(pozo*.2).toFixed(2);
 }
 
-// ── EDITAR ──
-function abrirEdicion(id) {
-  const p = participantes.find(x => x.id === id);
-  if (!p) return;
-  editandoId = id;
-  document.getElementById('editNombre').value = p.nombre || '';
-  const sel = document.getElementById('editEmpresa');
-  const empresasConocidas = ['ALOPSA','Caribe Gru','Manabique','ESTRAHU','PAHAME','Corporación Interport','ASEGI'];
-  if (empresasConocidas.includes(p.empresa)) {
-    sel.value = p.empresa;
-    document.getElementById('editEmpresaCustom').style.display = 'none';
-  } else if (p.empresa) {
-    sel.value = 'Otra';
-    document.getElementById('editEmpresaCustom').style.display = 'block';
-    document.getElementById('editEmpresaCustom').value = p.empresa;
-  } else {
-    sel.value = '';
-  }
+function abrirEdicion(id){
+  const p=participantes.find(x=>x.id===id);if(!p)return;
+  editandoId=id;
+  document.getElementById('editNombre').value=p.nombre||'';
+  const sel=document.getElementById('editEmpresa');
+  const known=['ALOPSA','Caribe Gru','Manabique','ESTRAHU','PAHAME','Corporación Interport','ASEGI'];
+  if(known.includes(p.empresa)){sel.value=p.empresa;document.getElementById('editEmpresaCustom').style.display='none'}
+  else if(p.empresa){sel.value='Otra';document.getElementById('editEmpresaCustom').style.display='block';document.getElementById('editEmpresaCustom').value=p.empresa}
+  else sel.value='';
   document.getElementById('modalEmpresa').classList.add('show');
 }
 
-document.getElementById('editEmpresa').addEventListener('change', function() {
-  document.getElementById('editEmpresaCustom').style.display = this.value === 'Otra' ? 'block' : 'none';
+document.getElementById('editEmpresa').addEventListener('change',function(){
+  document.getElementById('editEmpresaCustom').style.display=this.value==='Otra'?'block':'none';
 });
 
-async function guardarEdicion() {
-  const nombre = document.getElementById('editNombre').value.trim();
-  const selVal = document.getElementById('editEmpresa').value;
-  const empresa = selVal === 'Otra' ? document.getElementById('editEmpresaCustom').value.trim() : selVal;
-
-  if (!editandoId) return;
-  setSyncStatus('loading', 'Guardando cambios...');
-  const { error } = await db.from('participantes').update({ nombre, empresa }).eq('id', editandoId);
-  if (error) { showToast('❌ Error al guardar'); return; }
-  cerrarModales();
-  showToast('✅ Datos actualizados en la nube');
-  setSyncStatus('online', `Actualizado · ${new Date().toLocaleTimeString('es-GT')}`);
-  editandoId = null;
+async function guardarEdicion(){
+  const nombre=document.getElementById('editNombre').value.trim();
+  const selVal=document.getElementById('editEmpresa').value;
+  const empresa=selVal==='Otra'?document.getElementById('editEmpresaCustom').value.trim():selVal;
+  if(!editandoId)return;
+  setSyncStatus('loading','Guardando...');
+  const{error}=await db.from('participantes').update({nombre,empresa}).eq('id',editandoId);
+  if(error){showToast('❌ Error al guardar');return}
+  cerrarModales();showToast('✅ Actualizado en la nube');
+  setSyncStatus('online','Actualizado · '+new Date().toLocaleTimeString('es-GT'));
+  editandoId=null;
 }
 
-// ── ELIMINAR ──
-async function eliminarParticipante(id, nombre) {
-  if (!confirm(`¿Eliminar a ${nombre}?\nEsta acción se reflejará para todos los usuarios.`)) return;
-  setSyncStatus('loading', 'Eliminando...');
-  const { error } = await db.from('participantes').delete().eq('id', id);
-  if (error) { showToast('❌ Error al eliminar'); return; }
-  showToast('🗑️ Participante eliminado');
-  setSyncStatus('online', `Actualizado · ${new Date().toLocaleTimeString('es-GT')}`);
+async function eliminarParticipante(id,nombre){
+  if(!confirm('¿Eliminar a '+nombre+'?\nSe eliminará para todos los usuarios.'))return;
+  setSyncStatus('loading','Eliminando...');
+  const{error}=await db.from('participantes').delete().eq('id',id);
+  if(error){showToast('❌ Error al eliminar');return}
+  showToast('🗑️ Eliminado');
+  setSyncStatus('online','Actualizado · '+new Date().toLocaleTimeString('es-GT'));
 }
 
-function confirmarLimpiar() { document.getElementById('modalLimpiar').classList.add('show'); }
+function confirmarLimpiar(){document.getElementById('modalLimpiar').classList.add('show')}
 
-async function limpiarTodo() {
-  cerrarModales();
-  setSyncStatus('loading', 'Eliminando todos los registros...');
-  const { error } = await db.from('participantes').delete().neq('id', '00000000-0000-0000-0000-000000000000');
-  if (error) { showToast('❌ Error al limpiar'); return; }
-  showToast('🗑️ Lista limpiada en la nube');
-  setSyncStatus('online', 'Listo');
+async function limpiarTodo(){
+  cerrarModales();setSyncStatus('loading','Eliminando todo...');
+  const{error}=await db.from('participantes').delete().neq('id','00000000-0000-0000-0000-000000000000');
+  if(error){showToast('❌ Error');return}
+  showToast('🗑️ Lista limpiada');setSyncStatus('online','Listo');
 }
 
-// ── MODALES ──
-function mostrarModalDescarga() { document.getElementById('modalDescarga').classList.add('show'); }
-function cerrarModales() {
-  document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('show'));
-}
-document.querySelectorAll('.modal-overlay').forEach(m => {
-  m.addEventListener('click', e => { if(e.target === m) cerrarModales(); });
-});
+function mostrarModalDescarga(){document.getElementById('modalDescarga').classList.add('show')}
+function cerrarModales(){document.querySelectorAll('.modal-overlay').forEach(m=>m.classList.remove('show'))}
+document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)cerrarModales()}));
 
-// ── EXPORTAR CSV ──
-function exportarCSV() {
-  const headers = ['#','Nombre','Empresa/Área','Tipo','Monto Pagado','Aporte ASEGI','Total Pozo','Fecha','Referencia'];
-  const rows = participantes.map((p,i) => [
-    i+1, p.nombre, p.empresa||'', p.tipo,
-    `Q${parseFloat(p.monto||0).toFixed(2)}`,
-    p.tipo==='ASEGI'?'Q25.00':'Q0.00',
-    'Q100.00', p.fecha||'', p.referencia||''
-  ]);
-  const csv = [headers,...rows].map(r=>r.map(c=>`"${c}"`).join(',')).join('\n');
-  const blob = new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href=url;
-  a.download=`InterQuiniela2026_${new Date().toLocaleDateString('es-GT').replace(/\//g,'-')}.csv`;
-  a.click(); URL.revokeObjectURL(url);
+function exportarCSV(){
+  const h=['#','Nombre','Empresa','Tipo','Monto','Aporte ASEGI','Total','Fecha','Referencia'];
+  const r=participantes.map((p,i)=>[i+1,p.nombre,p.empresa||'',p.tipo,'Q'+parseFloat(p.monto||0).toFixed(2),p.tipo==='ASEGI'?'Q25.00':'Q0.00','Q100.00',p.fecha||'',p.referencia||'']);
+  const csv=[h,...r].map(row=>row.map(c=>'"'+c+'"').join(',')).join('\n');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='InterQuiniela2026_'+Date.now()+'.csv';a.click();URL.revokeObjectURL(url);
   showToast('📊 CSV descargado');
 }
 
-// ── EXPORTAR IMAGEN WHATSAPP ──
-async function exportarImagen() {
-  if (!participantes.length) { showToast('⚠️ No hay participantes'); return; }
-  const canvas = document.getElementById('exportCanvas');
-  const ctx = canvas.getContext('2d');
-  const filas = participantes.length;
-  const W = 900;
-  const headerH = 150, rowH = 44, summaryH = 130, footerH = 70;
-  const H = headerH + rowH*(filas+1) + summaryH + footerH + 40;
-  canvas.width = W; canvas.height = H;
-
-  const grad = ctx.createLinearGradient(0,0,0,H);
-  grad.addColorStop(0,'#001a3a'); grad.addColorStop(1,'#003366');
-  ctx.fillStyle=grad; ctx.fillRect(0,0,W,H);
-
-  ctx.fillStyle='rgba(0,166,81,0.15)'; ctx.fillRect(0,0,W,headerH);
-  ctx.fillStyle='#00A651'; ctx.fillRect(0,headerH-3,W,3);
-
-  ctx.fillStyle='#FFFFFF'; ctx.font='bold 34px Arial Black,sans-serif'; ctx.textAlign='center';
-  ctx.fillText('⚽ INTER QUINIELA MUNDIAL 2026', W/2, 48);
-  ctx.font='15px Arial'; ctx.fillStyle='#8A9BB0';
-  ctx.fillText('Registro de Participantes · ASEGI · Corporación Interport', W/2, 74);
-  const fecha = new Date().toLocaleDateString('es-GT',{day:'2-digit',month:'long',year:'numeric'});
-  ctx.fillStyle='#FFD700'; ctx.font='bold 13px Arial';
-  ctx.fillText(`Actualizado: ${fecha} · Total: ${participantes.length} participantes`, W/2, 100);
-  const totalAsegi = participantes.filter(p=>p.tipo==='ASEGI').length;
-  const pozo = participantes.length*100;
+async function exportarImagen(){
+  if(!participantes.length){showToast('⚠️ No hay participantes');return}
+  const canvas=document.getElementById('exportCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=900,headerH=150,rowH=44,summaryH=130,footerH=70;
+  const H=headerH+rowH*(participantes.length+1)+summaryH+footerH+40;
+  canvas.width=W;canvas.height=H;
+  const g=ctx.createLinearGradient(0,0,0,H);
+  g.addColorStop(0,'#001a3a');g.addColorStop(1,'#003366');
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='rgba(0,166,81,.15)';ctx.fillRect(0,0,W,headerH);
+  ctx.fillStyle='#00A651';ctx.fillRect(0,headerH-3,W,3);
+  ctx.fillStyle='#FFF';ctx.font='bold 34px Arial Black';ctx.textAlign='center';
+  ctx.fillText('⚽ INTER QUINIELA MUNDIAL 2026',W/2,48);
+  ctx.font='15px Arial';ctx.fillStyle='#8A9BB0';
+  ctx.fillText('Registro de Participantes · ASEGI · Corporación Interport',W/2,74);
+  const fecha=new Date().toLocaleDateString('es-GT',{day:'2-digit',month:'long',year:'numeric'});
+  ctx.fillStyle='#FFD700';ctx.font='bold 13px Arial';
+  ctx.fillText('Actualizado: '+fecha+' · Total: '+participantes.length+' participantes',W/2,100);
+  const ta=participantes.filter(p=>p.tipo==='ASEGI').length;
+  const pozo=participantes.length*100;
   ctx.fillStyle='#00e676';
-  ctx.fillText(`Pozo Total: Q${pozo.toFixed(2)} · Aporte ASEGI: Q${(totalAsegi*25).toFixed(2)}`, W/2, 124);
-
-  let y = headerH+10;
-  const colX = [10,60,285,420,515,620,720,820];
-  const headers = ['#','Nombre','Empresa','Tipo','Pago','ASEGI+','Total','Fecha'];
-  ctx.fillStyle='#0057A8'; ctx.fillRect(0,y,W,rowH);
-  ctx.fillStyle='#FFF'; ctx.font='bold 12px Arial'; ctx.textAlign='left';
-  headers.forEach((h,i)=>ctx.fillText(h,colX[i]+4,y+28));
-  y+=rowH;
-
+  ctx.fillText('Pozo Total: Q'+pozo.toFixed(2)+' · Aporte ASEGI: Q'+(ta*25).toFixed(2),W/2,124);
+  let y=headerH+10;
+  const colX=[10,60,285,415,505,605,700,795];
+  const hdrs=['#','Nombre','Empresa','Tipo','Pago','ASEGI+','Total','Fecha'];
+  ctx.fillStyle='#0057A8';ctx.fillRect(0,y,W,rowH);
+  ctx.fillStyle='#FFF';ctx.font='bold 12px Arial';ctx.textAlign='left';
+  hdrs.forEach((h,i)=>ctx.fillText(h,colX[i]+4,y+28));y+=rowH;
   participantes.forEach((p,i)=>{
-    const esAsegi=p.tipo==='ASEGI';
-    ctx.fillStyle=esAsegi?'rgba(255,215,0,0.08)':(i%2===0?'rgba(255,255,255,0.04)':'rgba(255,255,255,0.02)');
+    const ea=p.tipo==='ASEGI';
+    ctx.fillStyle=ea?'rgba(255,215,0,.08)':(i%2===0?'rgba(255,255,255,.04)':'rgba(255,255,255,.02)');
     ctx.fillRect(0,y,W,rowH);
-    ctx.fillStyle='#8A9BB0'; ctx.font='bold 12px Arial'; ctx.textAlign='left';
+    ctx.fillStyle='#8A9BB0';ctx.font='bold 12px Arial';ctx.textAlign='left';
     ctx.fillText(String(i+1),colX[0]+4,y+28);
-    ctx.fillStyle='#FFF'; ctx.font='bold 12px Arial';
+    ctx.fillStyle='#FFF';ctx.font='bold 12px Arial';
     ctx.fillText(trunc(p.nombre||'—',20),colX[1]+4,y+28);
-    ctx.fillStyle='#7090B0'; ctx.font='11px Arial';
+    ctx.fillStyle='#7090B0';ctx.font='11px Arial';
     ctx.fillText(trunc(p.empresa||'—',14),colX[2]+4,y+28);
-    if(esAsegi){
-      ctx.fillStyle='#FFD700'; roundRect(ctx,colX[3]+2,y+9,76,22,10); ctx.fill();
-      ctx.fillStyle='#003366'; ctx.font='bold 9px Arial'; ctx.textAlign='center';
-      ctx.fillText('⭐ ASEGI',colX[3]+40,y+25);
-    } else {
-      ctx.fillStyle='#00A651'; roundRect(ctx,colX[3]+2,y+9,76,22,10); ctx.fill();
-      ctx.fillStyle='#FFF'; ctx.font='bold 9px Arial'; ctx.textAlign='center';
-      ctx.fillText('✅ GENERAL',colX[3]+40,y+25);
-    }
+    ctx.beginPath();
+    if(ea){ctx.fillStyle='#FFD700';rr(ctx,colX[3]+2,y+9,76,22,10);ctx.fill();ctx.fillStyle='#003366';ctx.font='bold 9px Arial';ctx.textAlign='center';ctx.fillText('⭐ ASEGI',colX[3]+40,y+25)}
+    else{ctx.fillStyle='#00A651';rr(ctx,colX[3]+2,y+9,76,22,10);ctx.fill();ctx.fillStyle='#FFF';ctx.font='bold 9px Arial';ctx.textAlign='center';ctx.fillText('✅ GENERAL',colX[3]+40,y+25)}
     ctx.textAlign='left';
-    ctx.fillStyle='#00e676'; ctx.font='bold 12px Arial';
-    ctx.fillText(`Q${parseFloat(p.monto||0).toFixed(2)}`,colX[4]+4,y+28);
-    ctx.fillStyle=esAsegi?'#FFD700':'#4a6080'; ctx.font='bold 12px Arial';
-    ctx.fillText(esAsegi?'+Q25.00':'—',colX[5]+4,y+28);
-    ctx.fillStyle='#FFF'; ctx.font='bold 12px Arial';
-    ctx.fillText('Q100.00',colX[6]+4,y+28);
-    ctx.fillStyle='#7090B0'; ctx.font='11px Arial';
-    ctx.fillText(p.fecha||'—',colX[7]+4,y+28);
-    ctx.strokeStyle='rgba(255,255,255,0.06)'; ctx.lineWidth=1;
-    ctx.beginPath(); ctx.moveTo(0,y+rowH); ctx.lineTo(W,y+rowH); ctx.stroke();
+    ctx.fillStyle='#00e676';ctx.font='bold 12px Arial';ctx.fillText('Q'+parseFloat(p.monto||0).toFixed(2),colX[4]+4,y+28);
+    ctx.fillStyle=ea?'#FFD700':'#4a6080';ctx.fillText(ea?'+Q25.00':'—',colX[5]+4,y+28);
+    ctx.fillStyle='#FFF';ctx.fillText('Q100.00',colX[6]+4,y+28);
+    ctx.fillStyle='#7090B0';ctx.font='11px Arial';ctx.fillText(p.fecha||'—',colX[7]+4,y+28);
+    ctx.strokeStyle='rgba(255,255,255,.06)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,y+rowH);ctx.lineTo(W,y+rowH);ctx.stroke();
     y+=rowH;
   });
-
   y+=16;
-  ctx.fillStyle='rgba(0,166,81,0.15)';
-  roundRect(ctx,10,y,W-20,summaryH,14); ctx.fill();
-  ctx.strokeStyle='#00A651'; ctx.lineWidth=1.5;
-  roundRect(ctx,10,y,W-20,summaryH,14); ctx.stroke();
-  ctx.fillStyle='#00A651'; ctx.font='bold 14px Arial'; ctx.textAlign='center';
+  ctx.fillStyle='rgba(0,166,81,.15)';rr(ctx,10,y,W-20,summaryH,14);ctx.fill();
+  ctx.strokeStyle='#00A651';ctx.lineWidth=1.5;rr(ctx,10,y,W-20,summaryH,14);ctx.stroke();
+  ctx.fillStyle='#00A651';ctx.font='bold 14px Arial';ctx.textAlign='center';
   ctx.fillText('DISTRIBUCIÓN DEL POZO',W/2,y+24);
-  const premios=[
-    {icon:'🥇',label:'1er Lugar (50%)',val:`Q${(pozo*0.5).toFixed(2)}`,color:'#FFD700'},
-    {icon:'🥈',label:'2do Lugar (30%)',val:`Q${(pozo*0.3).toFixed(2)}`,color:'#C0C0C0'},
-    {icon:'🥉',label:'3er Lugar (20%)',val:`Q${(pozo*0.2).toFixed(2)}`,color:'#CD7F32'},
-  ];
-  premios.forEach((pr,i)=>{
-    const px=150+i*210;
-    ctx.fillStyle=pr.color; ctx.font='bold 13px Arial'; ctx.textAlign='center';
-    ctx.fillText(`${pr.icon} ${pr.label}`,px,y+55);
-    ctx.font='bold 20px Arial Black'; ctx.fillText(pr.val,px,y+82);
+  [{icon:'🥇',label:'1er Lugar (50%)',val:'Q'+(pozo*.5).toFixed(2),color:'#FFD700'},{icon:'🥈',label:'2do Lugar (30%)',val:'Q'+(pozo*.3).toFixed(2),color:'#C0C0C0'},{icon:'🥉',label:'3er Lugar (20%)',val:'Q'+(pozo*.2).toFixed(2),color:'#CD7F32'}].forEach((pr,i)=>{
+    const px=150+i*210;ctx.fillStyle=pr.color;ctx.font='bold 13px Arial';ctx.textAlign='center';
+    ctx.fillText(pr.icon+' '+pr.label,px,y+55);ctx.font='bold 20px Arial Black';ctx.fillText(pr.val,px,y+82);
   });
-  ctx.fillStyle='#FFD700'; ctx.font='bold 12px Arial'; ctx.textAlign='center';
-  ctx.fillText(`Aporte ASEGI: Q${(totalAsegi*25).toFixed(2)} (${totalAsegi} asociados × Q25)`,W/2,y+110);
-
+  ctx.fillStyle='#FFD700';ctx.font='bold 12px Arial';ctx.textAlign='center';
+  ctx.fillText('Aporte ASEGI: Q'+(ta*25).toFixed(2)+' ('+ta+' asociados × Q25)',W/2,y+110);
   y+=summaryH+10;
-  ctx.fillStyle='rgba(255,255,255,0.05)'; ctx.fillRect(0,y,W,footerH);
-  ctx.fillStyle='#4a6060'; ctx.font='11px Arial'; ctx.textAlign='center';
+  ctx.fillStyle='rgba(255,255,255,.05)';ctx.fillRect(0,y,W,footerH);
+  ctx.fillStyle='#4a6060';ctx.font='11px Arial';ctx.textAlign='center';
   ctx.fillText('⚠️ Pendiente doble verificación de estatus ASEGI con encargada de asociados',W/2,y+24);
-  ctx.fillStyle='#2a4060';
-  ctx.fillText('Inter Quiniela Mundial 2026 · ASEGI · Corporación Interport Group, S.A.',W/2,y+46);
-
-  const link=document.createElement('a');
-  link.download=`InterQuiniela2026_${Date.now()}.png`;
-  link.href=canvas.toDataURL('image/png'); link.click();
+  ctx.fillStyle='#2a4060';ctx.fillText('Inter Quiniela Mundial 2026 · ASEGI · Corporación Interport Group, S.A.',W/2,y+46);
+  const link=document.createElement('a');link.download='InterQuiniela2026_'+Date.now()+'.png';link.href=canvas.toDataURL('image/png');link.click();
   showToast('📱 Imagen descargada para WhatsApp');
 }
 
-function trunc(t,max){return t&&t.length>max?t.substring(0,max-1)+'…':t;}
-function roundRect(ctx,x,y,w,h,r){
-  ctx.beginPath(); ctx.moveTo(x+r,y);
-  ctx.lineTo(x+w-r,y); ctx.arcTo(x+w,y,x+w,y+r,r);
-  ctx.lineTo(x+w,y+h-r); ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
-  ctx.lineTo(x+r,y+h); ctx.arcTo(x,y+h,x,y+h-r,r);
-  ctx.lineTo(x,y+r); ctx.arcTo(x,y,x+r,y,r);
-  ctx.closePath();
-}
+function trunc(t,max){return t&&t.length>max?t.substring(0,max-1)+'…':t}
+function rr(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.arcTo(x+w,y,x+w,y+r,r);ctx.lineTo(x+w,y+h-r);ctx.arcTo(x+w,y+h,x+w-r,y+h,r);ctx.lineTo(x+r,y+h);ctx.arcTo(x,y+h,x,y+h-r,r);ctx.lineTo(x,y+r);ctx.arcTo(x,y,x+r,y,r);ctx.closePath()}
 
-// ── TOAST ──
-function showToast(msg) {
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3200);
-}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200)}
 
 init();
 </script>
