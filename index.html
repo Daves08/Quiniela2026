@@ -10,56 +10,89 @@
 :root{--verde:#00A651;--verde-claro:#39D353;--azul-oscuro:#003366;--azul:#0057A8;--amarillo:#FFD700;--rojo:#CC0000;--gris:#8A9BB0;--sombra:0 4px 24px rgba(0,51,102,0.13)}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#001a3a 0%,#003366 40%,#004080 100%);min-height:100vh}
-.header{background:linear-gradient(90deg,#001a3a,#003366,#001a3a);border-bottom:3px solid var(--verde);padding:18px 30px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-.logo-badge{width:64px;height:64px;background:var(--verde);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 0 0 4px rgba(0,166,81,0.3);flex-shrink:0}
-.header-text h1{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:#fff;letter-spacing:2px;line-height:1}
+
+/* LOGIN */
+.login-screen{position:fixed;inset:0;background:linear-gradient(135deg,#001a3a,#003366,#004080);display:flex;align-items:center;justify-content:center;z-index:9999}
+.login-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:24px;padding:40px 36px;width:100%;max-width:420px;text-align:center;backdrop-filter:blur(10px)}
+.login-logo{font-size:4rem;margin-bottom:10px}
+.login-card h1{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:#fff;letter-spacing:2px;margin-bottom:4px}
+.login-card h1 span{color:var(--verde-claro)}
+.login-card p{color:var(--gris);font-size:.82rem;margin-bottom:28px}
+.login-group{margin-bottom:16px;text-align:left}
+.login-group label{display:block;color:var(--gris);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.login-group input{width:100%;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:10px;padding:12px 16px;color:#fff;font-family:'Nunito',sans-serif;font-size:.95rem;outline:none;transition:border-color .2s}
+.login-group input:focus{border-color:var(--verde)}
+.login-group input::placeholder{color:rgba(255,255,255,.3)}
+.btn-login{width:100%;padding:14px;background:var(--verde);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;border:none;border-radius:12px;cursor:pointer;margin-top:8px;transition:all .2s;box-shadow:0 4px 16px rgba(0,166,81,.35)}
+.btn-login:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(0,166,81,.5)}
+.login-error{color:#ff6b6b;font-size:.82rem;margin-top:10px;display:none}
+.login-roles{margin-top:20px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.role-chip{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:4px 12px;font-size:.7rem;color:var(--gris)}
+
+/* HEADER */
+.header{background:linear-gradient(90deg,#001a3a,#003366,#001a3a);border-bottom:3px solid var(--verde);padding:16px 28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.logo-badge{width:60px;height:60px;background:var(--verde);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 0 0 4px rgba(0,166,81,.3);flex-shrink:0}
+.header-text h1{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:#fff;letter-spacing:2px;line-height:1}
 .header-text h1 span{color:var(--verde-claro)}
-.header-text p{color:var(--gris);font-size:.82rem;margin-top:2px}
-.header-stats{margin-left:auto;display:flex;gap:18px;flex-wrap:wrap}
-.stat-pill{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:8px 16px;text-align:center;min-width:90px}
-.stat-pill .num{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--amarillo);line-height:1}
-.stat-pill .lbl{font-size:.68rem;color:var(--gris);text-transform:uppercase;letter-spacing:1px}
-.sync-bar{background:rgba(0,0,0,.3);padding:8px 30px;display:flex;align-items:center;gap:10px;font-size:.78rem}
+.header-text p{color:var(--gris);font-size:.78rem;margin-top:2px}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.header-stats{display:flex;gap:14px;flex-wrap:wrap}
+.stat-pill{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:7px 14px;text-align:center;min-width:85px}
+.stat-pill .num{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--amarillo);line-height:1}
+.stat-pill .lbl{font-size:.65rem;color:var(--gris);text-transform:uppercase;letter-spacing:1px}
+.role-badge{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:6px 14px;display:flex;align-items:center;gap:8px;cursor:pointer;transition:background .2s}
+.role-badge:hover{background:rgba(255,0,0,.2)}
+.role-badge .rname{color:#fff;font-weight:800;font-size:.8rem}
+.role-badge .ricon{font-size:1.1rem}
+
+/* SYNC */
+.sync-bar{background:rgba(0,0,0,.3);padding:7px 28px;display:flex;align-items:center;gap:10px;font-size:.76rem}
 .sync-dot{width:8px;height:8px;border-radius:50%;background:#666;flex-shrink:0}
 .sync-dot.online{background:var(--verde);box-shadow:0 0 6px var(--verde);animation:pulse 2s infinite}
 .sync-dot.loading{background:var(--amarillo);animation:pulse .5s infinite}
 .sync-dot.error{background:var(--rojo)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .sync-text{color:var(--gris)}
-.main{max-width:1100px;margin:0 auto;padding:28px 20px 60px}
-.nota-tesorero{background:rgba(255,193,7,.12);border:1px solid rgba(255,193,7,.4);border-radius:14px;padding:14px 20px;margin-bottom:22px;display:flex;align-items:flex-start;gap:12px}
-.nota-tesorero .icono{font-size:1.5rem;flex-shrink:0}
-.nota-tesorero p{color:#e0c060;font-size:.82rem;line-height:1.5}
+
+/* MAIN */
+.main{max-width:1100px;margin:0 auto;padding:24px 18px 60px}
+
+/* NOTA */
+.nota-tesorero{background:rgba(255,193,7,.12);border:1px solid rgba(255,193,7,.4);border-radius:14px;padding:14px 20px;margin-bottom:20px;display:flex;align-items:flex-start;gap:12px}
+.nota-tesorero .icono{font-size:1.4rem;flex-shrink:0}
+.nota-tesorero p{color:#e0c060;font-size:.8rem;line-height:1.5}
 .nota-tesorero strong{color:var(--amarillo)}
-.form-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:28px;margin-bottom:28px}
-.form-card h2{color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:1px;margin-bottom:20px;display:flex;align-items:center;gap:10px}
-.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:20px}
-.form-group{display:flex;flex-direction:column;gap:6px}
-.form-group label{color:var(--gris);font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px}
-.form-group input,.form-group select{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:10px;padding:10px 14px;color:#fff;font-family:'Nunito',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s}
+
+/* FORM */
+.form-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:26px;margin-bottom:24px}
+.form-card h2{color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px;margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-bottom:18px}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-group label{color:var(--gris);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.form-group input,.form-group select{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:10px;padding:10px 14px;color:#fff;font-family:'Nunito',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s}
 .form-group input::placeholder{color:rgba(255,255,255,.3)}
 .form-group input:focus,.form-group select:focus{border-color:var(--verde)}
 .form-group select option{background:#003366;color:#fff}
-.tipo-toggle{display:flex;gap:10px;margin-bottom:20px}
-.tipo-btn{flex:1;padding:12px;border-radius:12px;border:2px solid rgba(255,255,255,.15);background:transparent;color:var(--gris);font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;cursor:pointer;transition:all .2s;text-align:center}
-.tipo-btn.active-asegi{background:rgba(255,215,0,.15);border-color:var(--amarillo);color:var(--amarillo)}
-.tipo-btn.active-gen{background:rgba(0,166,81,.15);border-color:var(--verde);color:var(--verde-claro)}
-.btn-agregar{width:100%;padding:14px;background:var(--verde);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;border:none;border-radius:12px;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(0,166,81,.35)}
-.btn-agregar:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(0,166,81,.5)}
+.btn-agregar{width:100%;padding:13px;background:var(--verde);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:.95rem;border:none;border-radius:12px;cursor:pointer;transition:all .2s;box-shadow:0 4px 14px rgba(0,166,81,.35)}
+.btn-agregar:hover{transform:translateY(-2px)}
 .btn-agregar:disabled{background:#555;cursor:not-allowed;transform:none;box-shadow:none}
-.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:22px}
-.sum-card{border-radius:16px;padding:18px}
+
+/* SUMMARY */
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:13px;margin-bottom:20px}
+.sum-card{border-radius:16px;padding:16px}
 .sum-card.pozo{background:linear-gradient(135deg,#003366,#0057A8);color:#fff}
 .sum-card.asegi-total{background:linear-gradient(135deg,#7B5E00,#C49A00);color:#fff}
 .sum-card.primero{background:linear-gradient(135deg,#856404,#D4A017);color:#fff}
 .sum-card.segundo{background:linear-gradient(135deg,#4a4a4a,#888);color:#fff}
 .sum-card.tercero{background:linear-gradient(135deg,#6B2D00,#B85C00);color:#fff}
-.sum-card .icon{font-size:1.6rem;margin-bottom:4px}
-.sum-card .lbl{font-size:.68rem;text-transform:uppercase;letter-spacing:1px;opacity:.8}
-.sum-card .val{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;line-height:1.1}
-.sum-card .sub{font-size:.68rem;opacity:.7;margin-top:2px}
-.actions-bar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;justify-content:flex-end}
-.btn{font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;padding:10px 20px;border-radius:30px;border:none;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
+.sum-card .icon{font-size:1.5rem;margin-bottom:4px}
+.sum-card .lbl{font-size:.66rem;text-transform:uppercase;letter-spacing:1px;opacity:.8}
+.sum-card .val{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;line-height:1.1}
+.sum-card .sub{font-size:.66rem;opacity:.7;margin-top:2px}
+
+/* ACTIONS */
+.actions-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;justify-content:flex-end}
+.btn{font-family:'Nunito',sans-serif;font-weight:800;font-size:.82rem;padding:9px 18px;border-radius:30px;border:none;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:5px}
 .btn-green{background:var(--verde);color:#fff}
 .btn-green:hover{transform:translateY(-2px)}
 .btn-blue{background:var(--azul);color:#fff}
@@ -67,37 +100,83 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#001a3a 0
 .btn-red{background:#cc0000;color:#fff}
 .btn-outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.3)}
 .btn-outline:hover{border-color:#fff}
+
+/* TABLA */
 .table-section{background:#fff;border-radius:20px;overflow:hidden;box-shadow:var(--sombra);margin-bottom:22px}
-.table-header-bar{background:linear-gradient(90deg,var(--azul-oscuro),var(--azul));padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
-.table-header-bar h3{color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px}
-.badge-asegi{background:var(--amarillo);color:var(--azul-oscuro);font-weight:900;font-size:.7rem;padding:3px 10px;border-radius:20px;text-transform:uppercase}
-.badge-gen{background:var(--verde);color:#fff;font-weight:900;font-size:.7rem;padding:3px 10px;border-radius:20px;text-transform:uppercase}
+.table-header-bar{background:linear-gradient(90deg,var(--azul-oscuro),var(--azul));padding:14px 22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.table-header-bar h3{color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:1px}
+.badge-asegi{background:var(--amarillo);color:var(--azul-oscuro);font-weight:900;font-size:.68rem;padding:3px 9px;border-radius:20px;text-transform:uppercase}
+.badge-gen{background:var(--verde);color:#fff;font-weight:900;font-size:.68rem;padding:3px 9px;border-radius:20px;text-transform:uppercase}
 table{width:100%;border-collapse:collapse}
 thead tr{background:#F0F4F8}
-thead th{padding:11px 12px;text-align:left;font-size:.7rem;font-weight:900;text-transform:uppercase;letter-spacing:1px;color:var(--azul-oscuro);border-bottom:2px solid #dde4ed}
+thead th{padding:10px 11px;text-align:left;font-size:.68rem;font-weight:900;text-transform:uppercase;letter-spacing:1px;color:var(--azul-oscuro);border-bottom:2px solid #dde4ed}
 tbody tr{border-bottom:1px solid #edf0f5;transition:background .15s}
 tbody tr:hover{background:#f8fbff}
-tbody td{padding:10px 12px;font-size:.82rem;color:#2a3a50;vertical-align:middle}
+tbody td{padding:9px 11px;font-size:.8rem;color:#2a3a50;vertical-align:middle}
 .row-asegi td{background:linear-gradient(90deg,rgba(255,215,0,.07),transparent)}
-.btn-icon{background:none;border:none;cursor:pointer;font-size:.95rem;padding:4px 6px;border-radius:6px;transition:background .15s}
+.btn-icon{background:none;border:none;cursor:pointer;font-size:.9rem;padding:4px 5px;border-radius:6px;transition:background .15s}
 .btn-icon:hover{background:#f0f0f0}
+
+/* VERIFICACION BADGES */
+.verif-pendiente{display:inline-flex;align-items:center;gap:4px;background:#fff3cd;color:#856404;font-size:.68rem;font-weight:800;padding:3px 8px;border-radius:12px;border:1px solid #ffc107}
+.verif-ok{display:inline-flex;align-items:center;gap:4px;background:#d4edda;color:#155724;font-size:.68rem;font-weight:800;padding:3px 8px;border-radius:12px;border:1px solid #28a745}
+.verif-btn{display:inline-flex;align-items:center;gap:4px;background:#0057A8;color:#fff;font-size:.68rem;font-weight:800;padding:3px 9px;border-radius:12px;border:none;cursor:pointer;transition:all .2s}
+.verif-btn:hover{background:#003366;transform:scale(1.05)}
+.banco-pendiente{display:inline-flex;align-items:center;gap:4px;background:#ffe8e8;color:#cc0000;font-size:.68rem;font-weight:800;padding:3px 8px;border-radius:12px;border:1px solid #cc0000}
+.banco-ok{display:inline-flex;align-items:center;gap:4px;background:#d4edda;color:#155724;font-size:.68rem;font-weight:800;padding:3px 8px;border-radius:12px;border:1px solid #28a745}
+.banco-btn{display:inline-flex;align-items:center;gap:4px;background:#cc0000;color:#fff;font-size:.68rem;font-weight:800;padding:3px 9px;border-radius:12px;border:none;cursor:pointer;transition:all .2s}
+.banco-btn:hover{background:#990000;transform:scale(1.05)}
+
 .empty-state{text-align:center;padding:40px 20px;color:var(--gris)}
 .empty-state .big{font-size:3rem;margin-bottom:10px}
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;align-items:center;justify-content:center}
 .modal-overlay.show{display:flex}
 .modal{background:#fff;border-radius:20px;padding:28px;max-width:400px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4);animation:popIn .3s ease}
 @keyframes popIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
 .modal h3{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--azul-oscuro);margin:8px 0;letter-spacing:1px}
-.modal p{color:#555;font-size:.86rem;margin-bottom:18px;line-height:1.5}
+.modal p{color:#555;font-size:.85rem;margin-bottom:18px;line-height:1.5}
 .modal-icon{font-size:2.2rem}
 .modal-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.toast{position:fixed;bottom:24px;right:24px;background:var(--azul-oscuro);color:#fff;padding:12px 22px;border-radius:30px;font-size:.85rem;font-weight:700;border-left:4px solid var(--verde);box-shadow:0 6px 24px rgba(0,0,0,.3);z-index:2000;opacity:0;transform:translateY(20px);transition:all .3s}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--azul-oscuro);color:#fff;padding:12px 22px;border-radius:30px;font-size:.83rem;font-weight:700;border-left:4px solid var(--verde);box-shadow:0 6px 24px rgba(0,0,0,.3);z-index:2000;opacity:0;transform:translateY(20px);transition:all .3s}
 .toast.show{opacity:1;transform:translateY(0)}
 #exportCanvas{display:none}
-@media(max-width:600px){.header{padding:14px 16px}.header-text h1{font-size:1.3rem}.main{padding:14px 10px 50px}thead th,tbody td{padding:8px;font-size:.72rem}.sum-card .val{font-size:1.4rem}}
+
+@media(max-width:600px){
+  .header{padding:12px 14px}.header-text h1{font-size:1.3rem}
+  .main{padding:12px 8px 50px}
+  thead th,tbody td{padding:7px 7px;font-size:.68rem}
+  .sum-card .val{font-size:1.3rem}
+}
 </style>
 </head>
 <body>
+
+<!-- LOGIN -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">⚽</div>
+    <h1>INTER <span>QUINIELA</span></h1>
+    <p>Mundial 2026 · ASEGI · Corporación Interport<br>Ingresá tu contraseña para acceder</p>
+    <div class="login-group">
+      <label>Contraseña de Acceso</label>
+      <input type="password" id="loginPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')hacerLogin()">
+    </div>
+    <button class="btn-login" onclick="hacerLogin()">🔐 Ingresar</button>
+    <p class="login-error" id="loginError">❌ Contraseña incorrecta. Intentá de nuevo.</p>
+    <div class="login-roles">
+      <span class="role-chip">👑 Administrador</span>
+      <span class="role-chip">💰 Tesorera</span>
+      <span class="role-chip">🤝 Encargada ASEGI</span>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="appContent" style="display:none">
 
 <div class="header">
   <div class="logo-badge">⚽</div>
@@ -105,27 +184,34 @@ tbody td{padding:10px 12px;font-size:.82rem;color:#2a3a50;vertical-align:middle}
     <h1>INTER <span>QUINIELA</span> MUNDIAL 2026</h1>
     <p>Sistema de Registro · ASEGI · Corporación Interport · Datos en la nube ☁️</p>
   </div>
-  <div class="header-stats">
-    <div class="stat-pill"><div class="num" id="statTotal">0</div><div class="lbl">Participantes</div></div>
-    <div class="stat-pill"><div class="num" id="statAsegi">0</div><div class="lbl">Asociados ASEGI</div></div>
-    <div class="stat-pill"><div class="num" id="statPozo" style="color:#00e676">Q0</div><div class="lbl">Pozo Total</div></div>
+  <div class="header-right">
+    <div class="header-stats">
+      <div class="stat-pill"><div class="num" id="statTotal">0</div><div class="lbl">Participantes</div></div>
+      <div class="stat-pill"><div class="num" id="statAsegi">0</div><div class="lbl">Asoc. ASEGI</div></div>
+      <div class="stat-pill"><div class="num" id="statPozo" style="color:#00e676">Q0</div><div class="lbl">Pozo Total</div></div>
+    </div>
+    <div class="role-badge" onclick="cerrarSesion()" title="Click para cerrar sesión">
+      <span class="ricon" id="roleIcon">👑</span>
+      <span class="rname" id="roleName">Admin</span>
+      <span style="color:var(--gris);font-size:.7rem">· Salir</span>
+    </div>
   </div>
 </div>
 
 <div class="sync-bar">
   <div class="sync-dot loading" id="syncDot"></div>
-  <span class="sync-text" id="syncText">Conectando con la base de datos...</span>
+  <span class="sync-text" id="syncText">Conectando...</span>
 </div>
 
 <div class="main">
 
   <div class="nota-tesorero">
     <div class="icono">⚠️</div>
-    <p><strong>Nota para el Tesorero:</strong> Seleccioná <strong>ASEGI</strong> si el participante pagó Q75.00 (ASEGI aporta Q25.00 adicionales). Seleccioná <strong>Colaborador General</strong> si pagó Q100.00. <strong>Verificar siempre con la encargada de asociados.</strong></p>
+    <p><strong>Nota:</strong> Pagos de <strong>Q75.00</strong> = Asociado ASEGI (ASEGI aporta Q25.00). Pagos de <strong>Q100.00</strong> = Colaborador General. La encargada de asociados debe verificar el estatus ASEGI. La tesorera debe verificar cada depósito contra el banco.</p>
   </div>
 
-  <!-- FORMULARIO -->
-  <div class="form-card">
+  <!-- FORM (solo admin y tesorera) -->
+  <div class="form-card" id="formCard">
     <h2>➕ Registrar Participante</h2>
     <div class="form-grid">
       <div class="form-group">
@@ -134,7 +220,7 @@ tbody td{padding:10px 12px;font-size:.82rem;color:#2a3a50;vertical-align:middle}
       </div>
       <div class="form-group">
         <label>Empresa / Área</label>
-        <select id="inputEmpresa">
+        <select id="inputEmpresa" onchange="toggleEmpresaCustom()">
           <option value="">-- Seleccionar --</option>
           <option value="ALOPSA">ALOPSA</option>
           <option value="Caribe Gru">Caribe Gru</option>
@@ -146,7 +232,7 @@ tbody td{padding:10px 12px;font-size:.82rem;color:#2a3a50;vertical-align:middle}
           <option value="Otra">Otra área</option>
         </select>
       </div>
-      <div class="form-group" id="grupoEmpresaCustom" style="display:none">
+      <div class="form-group" id="grupoCustom" style="display:none">
         <label>Especificar Área</label>
         <input type="text" id="inputEmpresaCustom" placeholder="Ej: Recursos Humanos">
       </div>
@@ -154,8 +240,8 @@ tbody td{padding:10px 12px;font-size:.82rem;color:#2a3a50;vertical-align:middle}
         <label>Monto Pagado</label>
         <select id="inputMonto">
           <option value="">-- Seleccionar --</option>
-          <option value="75">Q75.00 (Asociado ASEGI)</option>
-          <option value="100">Q100.00 (Colaborador General)</option>
+          <option value="75">Q75.00 — Asociado ASEGI</option>
+          <option value="100">Q100.00 — Colaborador General</option>
         </select>
       </div>
       <div class="form-group">
@@ -167,17 +253,11 @@ tbody td{padding:10px 12px;font-size:.82rem;color:#2a3a50;vertical-align:middle}
         <input type="text" id="inputReferencia" placeholder="Ej: 123456789">
       </div>
     </div>
-    <button class="btn-agregar" id="btnAgregar" onclick="agregarParticipante()">
-      ✅ Registrar Participante
-    </button>
+    <button class="btn-agregar" id="btnAgregar" onclick="agregarParticipante()">✅ Registrar Participante</button>
   </div>
 
   <!-- ACCIONES -->
-  <div class="actions-bar" id="actionsBar" style="display:none">
-    <button class="btn btn-outline" onclick="document.getElementById('modalLimpiar').classList.add('show')">🗑️ Limpiar Todo</button>
-    <button class="btn btn-blue" onclick="exportarCSV()">📊 Exportar CSV</button>
-    <button class="btn btn-green" onclick="exportarImagen()">📱 Imagen WhatsApp</button>
-  </div>
+  <div class="actions-bar" id="actionsBar" style="display:none"></div>
 
   <!-- RESUMEN -->
   <div class="summary-grid" id="summaryGrid" style="display:none">
@@ -192,26 +272,36 @@ tbody td{padding:10px 12px;font-size:.82rem;color:#2a3a50;vertical-align:middle}
   <div class="table-section">
     <div class="table-header-bar">
       <h3>📋 Registro de Participantes</h3>
-      <div style="display:flex;gap:8px;align-items:center"><span class="badge-asegi">⭐ ASEGI</span><span class="badge-gen">✅ Colaborador</span></div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span class="badge-asegi">⭐ ASEGI</span>
+        <span class="badge-gen">✅ Colaborador</span>
+      </div>
     </div>
     <div style="overflow-x:auto">
       <table>
-        <thead><tr><th>#</th><th>Nombre</th><th>Empresa/Área</th><th>Tipo</th><th>Pago</th><th>Aporte ASEGI</th><th>Total</th><th>Fecha</th><th>Verif.</th><th></th></tr></thead>
+        <thead>
+          <tr>
+            <th>#</th><th>Nombre</th><th>Empresa/Área</th><th>Tipo</th>
+            <th>Pago</th><th>ASEGI+</th><th>Total</th><th>Fecha</th>
+            <th>✅ Estatus ASEGI</th><th>🏦 Verificado Banco</th><th></th>
+          </tr>
+        </thead>
         <tbody id="tablaBody">
-          <tr><td colspan="10"><div class="empty-state"><div class="big">⚽</div><p>Cargando datos...</p></div></td></tr>
+          <tr><td colspan="11"><div class="empty-state"><div class="big">⚽</div><p>Cargando datos...</p></div></td></tr>
         </tbody>
       </table>
     </div>
   </div>
 
-</div>
+</div><!-- /main -->
+</div><!-- /appContent -->
 
 <!-- MODAL LIMPIAR -->
 <div class="modal-overlay" id="modalLimpiar">
   <div class="modal">
     <div class="modal-icon">⚠️</div>
     <h3>¿Limpiar Todo?</h3>
-    <p>Eliminará <strong>todos los participantes</strong> de la base de datos. No se puede deshacer.</p>
+    <p>Eliminará <strong>todos los participantes</strong>. No se puede deshacer.</p>
     <div class="modal-actions">
       <button class="btn btn-red" onclick="limpiarTodo()">🗑️ Sí, eliminar todo</button>
       <button class="btn btn-outline" style="color:#333;border-color:#ccc" onclick="cerrarModales()">Cancelar</button>
@@ -223,234 +313,398 @@ tbody td{padding:10px 12px;font-size:.82rem;color:#2a3a50;vertical-align:middle}
 <canvas id="exportCanvas"></canvas>
 
 <script>
-const SUPABASE_URL='https://bbowgpvbymwbcmzqjrbc.supabase.co';
-const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJib3dncHZieW13YmNtenFqcmJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAyMzM5MDQsImV4cCI6MjA5NTgwOTkwNH0.WueFMGHcNUI--a2vMn_OS7p02PvYr8T_jMUGdwl2bmM';
-const{createClient}=supabase;
-const db=createClient(SUPABASE_URL,SUPABASE_KEY);
-let participantes=[];
+// ── ROLES Y CONTRASEÑAS ──
+const ROLES = {
+  'Quiniela2026*Admin': { rol: 'admin',   nombre: 'Administrador', icon: '👑' },
+  'Quiniela2026*Tesorera': { rol: 'tesorera', nombre: 'Tesorera',      icon: '💰' },
+  'Quiniela2026*ASEGI':  { rol: 'asegi',   nombre: 'Encargada ASEGI', icon: '🤝' }
+};
 
-async function init(){
-  setSyncStatus('loading','Conectando...');
-  try{
+let rolActual = null;
+let participantes = [];
+
+// ── LOGIN ──
+function hacerLogin() {
+  const pass = document.getElementById('loginPass').value;
+  const datos = ROLES[pass];
+  if (!datos) {
+    document.getElementById('loginError').style.display = 'block';
+    document.getElementById('loginPass').value = '';
+    return;
+  }
+  rolActual = datos;
+  sessionStorage.setItem('quinielaRol', JSON.stringify(datos));
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('appContent').style.display = 'block';
+  document.getElementById('roleIcon').textContent = datos.icon;
+  document.getElementById('roleName').textContent = datos.nombre;
+  configurarUI();
+  init();
+}
+
+function cerrarSesion() {
+  if (!confirm('¿Cerrar sesión?')) return;
+  sessionStorage.removeItem('quinielaRol');
+  rolActual = null;
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('appContent').style.display = 'none';
+  document.getElementById('loginPass').value = '';
+  document.getElementById('loginError').style.display = 'none';
+}
+
+// Restaurar sesión si ya estaba logueado
+const sesionGuardada = sessionStorage.getItem('quinielaRol');
+if (sesionGuardada) {
+  rolActual = JSON.parse(sesionGuardada);
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('appContent').style.display = 'block';
+  document.getElementById('roleIcon').textContent = rolActual.icon;
+  document.getElementById('roleName').textContent = rolActual.nombre;
+  configurarUI();
+}
+
+function configurarUI() {
+  // Formulario: solo admin y tesorera
+  const puedeAgregar = ['admin','tesorera'].includes(rolActual.rol);
+  document.getElementById('formCard').style.display = puedeAgregar ? 'block' : 'none';
+}
+
+function renderAcciones() {
+  const bar = document.getElementById('actionsBar');
+  let btns = '';
+  if (rolActual.rol === 'admin') {
+    btns += `<button class="btn btn-outline" onclick="document.getElementById('modalLimpiar').classList.add('show')">🗑️ Limpiar Todo</button>`;
+  }
+  if (['admin','tesorera'].includes(rolActual.rol)) {
+    btns += `<button class="btn btn-blue" onclick="exportarCSV()">📊 Exportar CSV</button>`;
+    btns += `<button class="btn btn-green" onclick="exportarImagen()">📱 Imagen WhatsApp</button>`;
+  }
+  bar.innerHTML = btns;
+}
+
+// ── SUPABASE ──
+const SUPABASE_URL = 'https://bbowgpvbymwbcmzqjrbc.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJib3dncHZieW13YmNtenFqcmJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAyMzM5MDQsImV4cCI6MjA5NTgwOTkwNH0.WueFMGHcNUI--a2vMn_OS7p02PvYr8T_jMUGdwl2bmM';
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+async function init() {
+  setSyncStatus('loading', 'Conectando...');
+  try {
     await cargarParticipantes();
-    setSyncStatus('online','Conectado · '+new Date().toLocaleTimeString('es-GT'));
-    db.channel('cambios').on('postgres_changes',{event:'*',schema:'public',table:'participantes'},()=>{
+    setSyncStatus('online', 'Conectado · ' + new Date().toLocaleTimeString('es-GT'));
+    db.channel('cambios').on('postgres_changes', { event: '*', schema: 'public', table: 'participantes' }, () => {
       cargarParticipantes();
-      setSyncStatus('online','Actualizado · '+new Date().toLocaleTimeString('es-GT'));
+      setSyncStatus('online', 'Actualizado · ' + new Date().toLocaleTimeString('es-GT'));
     }).subscribe();
-  }catch(e){
-    setSyncStatus('error','Error: '+e.message);
+  } catch(e) {
+    setSyncStatus('error', 'Error: ' + e.message);
   }
 }
 
-function setSyncStatus(s,t){
-  document.getElementById('syncDot').className='sync-dot '+s;
-  document.getElementById('syncText').textContent=t;
+function setSyncStatus(s, t) {
+  document.getElementById('syncDot').className = 'sync-dot ' + s;
+  document.getElementById('syncText').textContent = t;
 }
 
-async function cargarParticipantes(){
-  const{data,error}=await db.from('participantes').select('*').order('created_at',{ascending:true});
-  if(error)throw error;
-  participantes=data||[];
+async function cargarParticipantes() {
+  const { data, error } = await db.from('participantes').select('*').order('created_at', { ascending: true });
+  if (error) throw error;
+  participantes = data || [];
   renderTabla();
 }
 
-document.getElementById('inputEmpresa').addEventListener('change',function(){
-  document.getElementById('grupoEmpresaCustom').style.display=this.value==='Otra'?'flex':'none';
-});
+// ── FORM ──
+function toggleEmpresaCustom() {
+  const val = document.getElementById('inputEmpresa').value;
+  document.getElementById('grupoCustom').style.display = val === 'Otra' ? 'flex' : 'none';
+}
 
-document.getElementById('inputMonto').addEventListener('change',function(){
-  // Auto-detectar tipo por monto
-});
+async function agregarParticipante() {
+  const nombre = document.getElementById('inputNombre').value.trim();
+  const empVal = document.getElementById('inputEmpresa').value;
+  const empresa = empVal === 'Otra' ? document.getElementById('inputEmpresaCustom').value.trim() : empVal;
+  const monto = parseFloat(document.getElementById('inputMonto').value);
+  const fecha = document.getElementById('inputFecha').value;
+  const referencia = document.getElementById('inputReferencia').value.trim();
 
-async function agregarParticipante(){
-  const nombre=document.getElementById('inputNombre').value.trim();
-  const empresaVal=document.getElementById('inputEmpresa').value;
-  const empresa=empresaVal==='Otra'?document.getElementById('inputEmpresaCustom').value.trim():empresaVal;
-  const monto=parseFloat(document.getElementById('inputMonto').value);
-  const fecha=document.getElementById('inputFecha').value;
-  const referencia=document.getElementById('inputReferencia').value.trim();
+  if (!nombre) { showToast('⚠️ Ingresá el nombre'); return; }
+  if (!empresa) { showToast('⚠️ Seleccioná la empresa'); return; }
+  if (!monto) { showToast('⚠️ Seleccioná el monto'); return; }
 
-  if(!nombre){showToast('⚠️ Ingresá el nombre del participante');return}
-  if(!empresa){showToast('⚠️ Seleccioná la empresa o área');return}
-  if(!monto){showToast('⚠️ Seleccioná el monto pagado');return}
+  const btn = document.getElementById('btnAgregar');
+  btn.disabled = true; btn.textContent = 'Guardando...';
+  setSyncStatus('loading', 'Guardando...');
 
-  const btn=document.getElementById('btnAgregar');
-  btn.disabled=true;btn.textContent='Guardando...';
-  setSyncStatus('loading','Guardando...');
-
-  const esAsegi=monto===75;
-  try{
-    const{error}=await db.from('participantes').insert([{
-      nombre,empresa,
-      tipo:esAsegi?'ASEGI':'COLABORADOR',
-      monto,aporte_asegi:esAsegi?25:0,
-      total_pozo:100,
-      fecha:fecha||null,
-      referencia:referencia||null
+  const esAsegi = monto === 75;
+  try {
+    const { error } = await db.from('participantes').insert([{
+      nombre, empresa,
+      tipo: esAsegi ? 'ASEGI' : 'COLABORADOR',
+      monto, aporte_asegi: esAsegi ? 25 : 0,
+      total_pozo: 100,
+      fecha: fecha || null,
+      referencia: referencia || null,
+      verificado_asegi: false,
+      verificado_banco: false
     }]);
-    if(error)throw error;
-    showToast('✅ '+nombre+' registrado exitosamente');
-    setSyncStatus('online','Guardado · '+new Date().toLocaleTimeString('es-GT'));
-    limpiarFormulario();
-  }catch(e){
-    showToast('❌ Error: '+e.message);
-    setSyncStatus('error','Error al guardar');
+    if (error) throw error;
+    showToast('✅ ' + nombre + ' registrado');
+    setSyncStatus('online', 'Guardado · ' + new Date().toLocaleTimeString('es-GT'));
+    limpiarForm();
+  } catch(e) {
+    showToast('❌ Error: ' + e.message);
+    setSyncStatus('error', 'Error');
   }
-  btn.disabled=false;btn.textContent='✅ Registrar Participante';
+  btn.disabled = false; btn.textContent = '✅ Registrar Participante';
 }
 
-function limpiarFormulario(){
-  document.getElementById('inputNombre').value='';
-  document.getElementById('inputEmpresa').value='';
-  document.getElementById('inputMonto').value='';
-  document.getElementById('inputFecha').value='';
-  document.getElementById('inputReferencia').value='';
-  document.getElementById('inputEmpresaCustom').value='';
-  document.getElementById('grupoEmpresaCustom').style.display='none';
+function limpiarForm() {
+  ['inputNombre','inputEmpresa','inputMonto','inputFecha','inputReferencia','inputEmpresaCustom'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('grupoCustom').style.display = 'none';
 }
 
-function renderTabla(){
-  const tbody=document.getElementById('tablaBody');
-  const ab=document.getElementById('actionsBar');
-  const sg=document.getElementById('summaryGrid');
-  if(!participantes.length){
-    tbody.innerHTML='<tr><td colspan="10"><div class="empty-state"><div class="big">⚽</div><p>Aún no hay participantes.<br>Registrá el primero arriba.</p></div></td></tr>';
-    ab.style.display='none';sg.style.display='none';
-    actualizarStats(0,0,0);return;
+// ── VERIFICACIONES ──
+async function verificarAsegi(id, nombre) {
+  if (rolActual.rol !== 'asegi' && rolActual.rol !== 'admin') {
+    showToast('⛔ Solo la encargada ASEGI puede verificar estatus');
+    return;
   }
-  ab.style.display='flex';sg.style.display='grid';
-  tbody.innerHTML=participantes.map((p,i)=>{
-    const ea=p.tipo==='ASEGI';
-    return`<tr class="${ea?'row-asegi':''}">
+  if (!confirm('¿Confirmar que ' + nombre + ' es Asociado ASEGI válido?')) return;
+  setSyncStatus('loading', 'Verificando...');
+  const { error } = await db.from('participantes').update({
+    verificado_asegi: true,
+    verificado_por_asegi: rolActual.nombre,
+    fecha_verif_asegi: new Date().toISOString()
+  }).eq('id', id);
+  if (error) { showToast('❌ Error'); return; }
+  showToast('✅ Estatus ASEGI verificado para ' + nombre);
+  setSyncStatus('online', 'Actualizado · ' + new Date().toLocaleTimeString('es-GT'));
+}
+
+async function verificarBanco(id, nombre) {
+  if (rolActual.rol !== 'tesorera' && rolActual.rol !== 'admin') {
+    showToast('⛔ Solo la tesorera puede verificar depósitos bancarios');
+    return;
+  }
+  if (!confirm('¿Confirmar que el depósito de ' + nombre + ' fue verificado en el banco?')) return;
+  setSyncStatus('loading', 'Verificando...');
+  const { error } = await db.from('participantes').update({
+    verificado_banco: true,
+    verificado_por_banco: rolActual.nombre,
+    fecha_verif_banco: new Date().toISOString()
+  }).eq('id', id);
+  if (error) { showToast('❌ Error'); return; }
+  showToast('🏦 Depósito bancario verificado para ' + nombre);
+  setSyncStatus('online', 'Actualizado · ' + new Date().toLocaleTimeString('es-GT'));
+}
+
+// ── RENDER ──
+function renderTabla() {
+  const tbody = document.getElementById('tablaBody');
+  const ab = document.getElementById('actionsBar');
+  const sg = document.getElementById('summaryGrid');
+
+  if (!participantes.length) {
+    tbody.innerHTML = '<tr><td colspan="11"><div class="empty-state"><div class="big">⚽</div><p>Aún no hay participantes.<br>Registrá el primero arriba.</p></div></td></tr>';
+    ab.style.display = 'none'; sg.style.display = 'none';
+    actualizarStats(0, 0, 0); return;
+  }
+
+  ab.style.display = 'flex'; sg.style.display = 'grid';
+  renderAcciones();
+
+  tbody.innerHTML = participantes.map((p, i) => {
+    const ea = p.tipo === 'ASEGI';
+    const puedeEliminar = rolActual.rol === 'admin';
+    const puedeEditarBanco = ['admin','tesorera'].includes(rolActual.rol);
+    const puedeEditarAsegi = ['admin','asegi'].includes(rolActual.rol);
+
+    // Col verificación ASEGI
+    let colAsegi = '';
+    if (p.verificado_asegi) {
+      colAsegi = '<span class="verif-ok">✅ Verificado</span>';
+    } else if (ea) {
+      if (puedeEditarAsegi) {
+        colAsegi = `<button class="verif-btn" onclick="verificarAsegi('${p.id}','${esc(p.nombre)}')">🔍 Verificar</button>`;
+      } else {
+        colAsegi = '<span class="verif-pendiente">⏳ Pendiente</span>';
+      }
+    } else {
+      colAsegi = '<span style="color:#ccc;font-size:.72rem">N/A</span>';
+    }
+
+    // Col verificación banco
+    let colBanco = '';
+    if (p.verificado_banco) {
+      colBanco = '<span class="banco-ok">✅ Verificado</span>';
+    } else if (puedeEditarBanco) {
+      colBanco = `<button class="banco-btn" onclick="verificarBanco('${p.id}','${esc(p.nombre)}')">🏦 Verificar</button>`;
+    } else {
+      colBanco = '<span class="banco-pendiente">⏳ Pendiente</span>';
+    }
+
+    return `<tr class="${ea ? 'row-asegi' : ''}">
       <td style="font-family:'Bebas Neue',sans-serif;color:var(--gris)">${i+1}</td>
       <td style="font-weight:800;color:#003366">${p.nombre||'—'}</td>
-      <td style="color:#4a6080;font-size:.78rem">${p.empresa||'—'}</td>
-      <td>${ea?'<span class="badge-asegi">⭐ ASEGI</span>':'<span class="badge-gen">✅ Colaborador</span>'}</td>
+      <td style="color:#4a6080;font-size:.76rem">${p.empresa||'—'}</td>
+      <td>${ea ? '<span class="badge-asegi">⭐ ASEGI</span>' : '<span class="badge-gen">✅ Colaborador</span>'}</td>
       <td style="font-weight:800;color:#00A651">Q${parseFloat(p.monto||0).toFixed(2)}</td>
-      <td style="font-weight:800;color:#0057A8">${ea?'+Q25.00':'<span style="color:#ccc">—</span>'}</td>
+      <td style="font-weight:800;color:#0057A8">${ea ? '+Q25.00' : '<span style="color:#ccc">—</span>'}</td>
       <td style="font-weight:800">Q${parseFloat(p.total_pozo||100).toFixed(2)}</td>
-      <td style="font-size:.75rem;color:#4a6080">${p.fecha||'—'}</td>
-      <td style="font-size:.72rem;color:${ea?'#cc0000':'#00A651'};font-weight:700">${ea?'⚠️ Verificar':'✅ OK'}</td>
-      <td><button class="btn-icon" onclick="eliminar('${p.id}','${(p.nombre||'').replace(/'/g,"\\'")}')">🗑️</button></td>
+      <td style="font-size:.74rem;color:#4a6080">${p.fecha||'—'}</td>
+      <td>${colAsegi}</td>
+      <td>${colBanco}</td>
+      <td>${puedeEliminar ? `<button class="btn-icon" onclick="eliminar('${p.id}','${esc(p.nombre)}')">🗑️</button>` : ''}</td>
     </tr>`;
   }).join('');
-  const ta=participantes.filter(p=>p.tipo==='ASEGI').length;
-  const pozo=participantes.length*100;
-  actualizarStats(participantes.length,ta,pozo);
-  actualizarSummary(pozo,ta*25);
+
+  const ta = participantes.filter(p => p.tipo === 'ASEGI').length;
+  const pozo = participantes.length * 100;
+  actualizarStats(participantes.length, ta, pozo);
+  actualizarSummary(pozo, ta * 25);
 }
 
-function actualizarStats(t,a,p){
-  document.getElementById('statTotal').textContent=t;
-  document.getElementById('statAsegi').textContent=a;
-  document.getElementById('statPozo').textContent='Q'+p.toLocaleString();
+function esc(s) { return (s||'').replace(/'/g, "\\'"); }
+
+function actualizarStats(t, a, p) {
+  document.getElementById('statTotal').textContent = t;
+  document.getElementById('statAsegi').textContent = a;
+  document.getElementById('statPozo').textContent = 'Q' + p.toLocaleString();
 }
 
-function actualizarSummary(pozo,asegi){
-  document.getElementById('sumPozo').textContent='Q'+pozo.toFixed(2);
-  document.getElementById('sumAsegi').textContent='Q'+asegi.toFixed(2);
-  document.getElementById('sum1').textContent='Q'+(pozo*.5).toFixed(2);
-  document.getElementById('sum2').textContent='Q'+(pozo*.3).toFixed(2);
-  document.getElementById('sum3').textContent='Q'+(pozo*.2).toFixed(2);
+function actualizarSummary(pozo, asegi) {
+  document.getElementById('sumPozo').textContent = 'Q' + pozo.toFixed(2);
+  document.getElementById('sumAsegi').textContent = 'Q' + asegi.toFixed(2);
+  document.getElementById('sum1').textContent = 'Q' + (pozo * .5).toFixed(2);
+  document.getElementById('sum2').textContent = 'Q' + (pozo * .3).toFixed(2);
+  document.getElementById('sum3').textContent = 'Q' + (pozo * .2).toFixed(2);
 }
 
-async function eliminar(id,nombre){
-  if(!confirm('¿Eliminar a '+nombre+'?'))return;
-  setSyncStatus('loading','Eliminando...');
-  const{error}=await db.from('participantes').delete().eq('id',id);
-  if(error){showToast('❌ Error');return}
-  showToast('🗑️ '+nombre+' eliminado');
-  setSyncStatus('online','Actualizado · '+new Date().toLocaleTimeString('es-GT'));
+async function eliminar(id, nombre) {
+  if (!confirm('¿Eliminar a ' + nombre + '?')) return;
+  setSyncStatus('loading', 'Eliminando...');
+  const { error } = await db.from('participantes').delete().eq('id', id);
+  if (error) { showToast('❌ Error'); return; }
+  showToast('🗑️ ' + nombre + ' eliminado');
+  setSyncStatus('online', 'Actualizado · ' + new Date().toLocaleTimeString('es-GT'));
 }
 
-async function limpiarTodo(){
-  cerrarModales();setSyncStatus('loading','Limpiando...');
-  const{error}=await db.from('participantes').delete().neq('id','00000000-0000-0000-0000-000000000000');
-  if(error){showToast('❌ Error');return}
-  showToast('🗑️ Lista limpiada');setSyncStatus('online','Listo');
+async function limpiarTodo() {
+  cerrarModales();
+  setSyncStatus('loading', 'Limpiando...');
+  const { error } = await db.from('participantes').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+  if (error) { showToast('❌ Error'); return; }
+  showToast('🗑️ Lista limpiada');
+  setSyncStatus('online', 'Listo');
 }
 
-function cerrarModales(){document.querySelectorAll('.modal-overlay').forEach(m=>m.classList.remove('show'))}
-document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)cerrarModales()}));
+function cerrarModales() {
+  document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('show'));
+}
+document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', e => { if (e.target === m) cerrarModales(); }));
 
-function exportarCSV(){
-  const h=['#','Nombre','Empresa','Tipo','Monto','Aporte ASEGI','Total','Fecha','Referencia'];
-  const r=participantes.map((p,i)=>[i+1,p.nombre,p.empresa||'',p.tipo,'Q'+parseFloat(p.monto||0).toFixed(2),p.tipo==='ASEGI'?'Q25.00':'Q0.00','Q100.00',p.fecha||'',p.referencia||'']);
-  const csv=[h,...r].map(row=>row.map(c=>'"'+c+'"').join(',')).join('\n');
-  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
-  a.download='InterQuiniela2026_'+Date.now()+'.csv';a.click();
+// ── EXPORTAR CSV ──
+function exportarCSV() {
+  const h = ['#','Nombre','Empresa','Tipo','Monto','Aporte ASEGI','Total','Fecha','Ref.','Verif. ASEGI','Verif. Banco'];
+  const r = participantes.map((p,i) => [
+    i+1, p.nombre, p.empresa||'', p.tipo,
+    'Q'+parseFloat(p.monto||0).toFixed(2),
+    p.tipo==='ASEGI'?'Q25.00':'Q0.00','Q100.00',
+    p.fecha||'', p.referencia||'',
+    p.verificado_asegi?'✅ Verificado':'⏳ Pendiente',
+    p.verificado_banco?'✅ Verificado':'⏳ Pendiente'
+  ]);
+  const csv = [h,...r].map(row => row.map(c => '"'+c+'"').join(',')).join('\n');
+  const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8;'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'InterQuiniela2026_'+Date.now()+'.csv'; a.click();
   showToast('📊 CSV descargado');
 }
 
-async function exportarImagen(){
-  if(!participantes.length){showToast('⚠️ No hay participantes');return}
-  const canvas=document.getElementById('exportCanvas');
-  const ctx=canvas.getContext('2d');
-  const W=900,hH=150,rH=44,sH=130,fH=70;
-  const H=hH+rH*(participantes.length+1)+sH+fH+40;
-  canvas.width=W;canvas.height=H;
-  const g=ctx.createLinearGradient(0,0,0,H);
-  g.addColorStop(0,'#001a3a');g.addColorStop(1,'#003366');
-  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
-  ctx.fillStyle='rgba(0,166,81,.15)';ctx.fillRect(0,0,W,hH);
-  ctx.fillStyle='#00A651';ctx.fillRect(0,hH-3,W,3);
-  ctx.fillStyle='#FFF';ctx.font='bold 32px Arial Black';ctx.textAlign='center';
+// ── EXPORTAR IMAGEN ──
+async function exportarImagen() {
+  if (!participantes.length) { showToast('⚠️ No hay participantes'); return; }
+  const canvas = document.getElementById('exportCanvas');
+  const ctx = canvas.getContext('2d');
+  const W=900, hH=150, rH=44, sH=130, fH=70;
+  const H = hH + rH*(participantes.length+1) + sH + fH + 40;
+  canvas.width=W; canvas.height=H;
+  const g = ctx.createLinearGradient(0,0,0,H);
+  g.addColorStop(0,'#001a3a'); g.addColorStop(1,'#003366');
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='rgba(0,166,81,.15)'; ctx.fillRect(0,0,W,hH);
+  ctx.fillStyle='#00A651'; ctx.fillRect(0,hH-3,W,3);
+  ctx.fillStyle='#FFF'; ctx.font='bold 32px Arial Black'; ctx.textAlign='center';
   ctx.fillText('⚽ INTER QUINIELA MUNDIAL 2026',W/2,46);
-  ctx.font='14px Arial';ctx.fillStyle='#8A9BB0';
+  ctx.font='14px Arial'; ctx.fillStyle='#8A9BB0';
   ctx.fillText('Registro de Participantes · ASEGI · Corporación Interport',W/2,70);
-  const fe=new Date().toLocaleDateString('es-GT',{day:'2-digit',month:'long',year:'numeric'});
-  ctx.fillStyle='#FFD700';ctx.font='bold 13px Arial';
+  const fe = new Date().toLocaleDateString('es-GT',{day:'2-digit',month:'long',year:'numeric'});
+  ctx.fillStyle='#FFD700'; ctx.font='bold 13px Arial';
   ctx.fillText('Actualizado: '+fe+' · Total: '+participantes.length+' participantes',W/2,96);
-  const ta=participantes.filter(p=>p.tipo==='ASEGI').length;
-  const pz=participantes.length*100;
+  const ta = participantes.filter(p=>p.tipo==='ASEGI').length;
+  const pz = participantes.length*100;
+  const vA = participantes.filter(p=>p.verificado_asegi).length;
+  const vB = participantes.filter(p=>p.verificado_banco).length;
   ctx.fillStyle='#00e676';
-  ctx.fillText('Pozo Total: Q'+pz.toFixed(2)+' · Aporte ASEGI: Q'+(ta*25).toFixed(2),W/2,120);
+  ctx.fillText('Pozo: Q'+pz.toFixed(2)+' · ASEGI: Q'+(ta*25).toFixed(2)+' · Verif. ASEGI: '+vA+'/'+ta+' · Verif. Banco: '+vB+'/'+participantes.length,W/2,120);
   let y=hH+10;
-  const cx=[10,55,275,405,495,590,685,780];
-  ['#','Nombre','Empresa','Tipo','Pago','ASEGI+','Total','Fecha'].forEach((h,i)=>{
-    ctx.fillStyle=i===0?'#0057A8':'#0057A8';
-  });
-  ctx.fillStyle='#0057A8';ctx.fillRect(0,y,W,rH);
-  ctx.fillStyle='#FFF';ctx.font='bold 12px Arial';ctx.textAlign='left';
-  ['#','Nombre','Empresa','Tipo','Pago','ASEGI+','Total','Fecha'].forEach((h,i)=>ctx.fillText(h,cx[i]+4,y+28));
-  y+=rH;
+  const cx=[10,52,240,365,450,535,620,700,775,855];
+  const hdrs=['#','Nombre','Empresa','Tipo','Pago','ASEGI+','Total','Fecha','✅ASEGI','🏦Banco'];
+  ctx.fillStyle='#0057A8'; ctx.fillRect(0,y,W,rH);
+  ctx.fillStyle='#FFF'; ctx.font='bold 11px Arial'; ctx.textAlign='left';
+  hdrs.forEach((h,i)=>ctx.fillText(h,cx[i]+3,y+28)); y+=rH;
   participantes.forEach((p,i)=>{
     const ea=p.tipo==='ASEGI';
     ctx.fillStyle=ea?'rgba(255,215,0,.08)':(i%2===0?'rgba(255,255,255,.04)':'rgba(255,255,255,.02)');
     ctx.fillRect(0,y,W,rH);
-    ctx.fillStyle='#8A9BB0';ctx.font='bold 11px Arial';ctx.textAlign='left';ctx.fillText(String(i+1),cx[0]+4,y+27);
-    ctx.fillStyle='#FFF';ctx.font='bold 12px Arial';ctx.fillText(tr(p.nombre||'—',21),cx[1]+4,y+27);
-    ctx.fillStyle='#7090B0';ctx.font='11px Arial';ctx.fillText(tr(p.empresa||'—',15),cx[2]+4,y+27);
+    ctx.fillStyle='#8A9BB0'; ctx.font='bold 11px Arial'; ctx.textAlign='left';
+    ctx.fillText(String(i+1),cx[0]+3,y+27);
+    ctx.fillStyle='#FFF'; ctx.font='bold 11px Arial';
+    ctx.fillText(tr(p.nombre||'—',18),cx[1]+3,y+27);
+    ctx.fillStyle='#7090B0'; ctx.font='10px Arial';
+    ctx.fillText(tr(p.empresa||'—',13),cx[2]+3,y+27);
     ctx.beginPath();
-    if(ea){ctx.fillStyle='#FFD700';rr(ctx,cx[3]+2,y+9,74,22,10);ctx.fill();ctx.fillStyle='#003366';ctx.font='bold 9px Arial';ctx.textAlign='center';ctx.fillText('⭐ ASEGI',cx[3]+39,y+25)}
-    else{ctx.fillStyle='#00A651';rr(ctx,cx[3]+2,y+9,74,22,10);ctx.fill();ctx.fillStyle='#FFF';ctx.font='bold 9px Arial';ctx.textAlign='center';ctx.fillText('✅ GENERAL',cx[3]+39,y+25)}
+    if(ea){ctx.fillStyle='#FFD700';rr(ctx,cx[3]+2,y+9,68,22,10);ctx.fill();ctx.fillStyle='#003366';ctx.font='bold 8px Arial';ctx.textAlign='center';ctx.fillText('⭐ ASEGI',cx[3]+36,y+25)}
+    else{ctx.fillStyle='#00A651';rr(ctx,cx[3]+2,y+9,68,22,10);ctx.fill();ctx.fillStyle='#FFF';ctx.font='bold 8px Arial';ctx.textAlign='center';ctx.fillText('✅ GENERAL',cx[3]+36,y+25)}
     ctx.textAlign='left';
-    ctx.fillStyle='#00e676';ctx.font='bold 12px Arial';ctx.fillText('Q'+parseFloat(p.monto||0).toFixed(2),cx[4]+4,y+27);
-    ctx.fillStyle=ea?'#FFD700':'#4a6080';ctx.fillText(ea?'+Q25':'—',cx[5]+4,y+27);
-    ctx.fillStyle='#FFF';ctx.fillText('Q100',cx[6]+4,y+27);
-    ctx.fillStyle='#7090B0';ctx.font='10px Arial';ctx.fillText(p.fecha||'—',cx[7]+4,y+27);
-    ctx.strokeStyle='rgba(255,255,255,.06)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,y+rH);ctx.lineTo(W,y+rH);ctx.stroke();
+    ctx.fillStyle='#00e676'; ctx.font='bold 11px Arial';
+    ctx.fillText('Q'+parseFloat(p.monto||0).toFixed(2),cx[4]+3,y+27);
+    ctx.fillStyle=ea?'#FFD700':'#4a6080';
+    ctx.fillText(ea?'+Q25':'—',cx[5]+3,y+27);
+    ctx.fillStyle='#FFF'; ctx.fillText('Q100',cx[6]+3,y+27);
+    ctx.fillStyle='#7090B0'; ctx.font='10px Arial';
+    ctx.fillText(p.fecha||'—',cx[7]+3,y+27);
+    ctx.fillStyle=p.verificado_asegi?'#00e676':(ea?'#FFD700':'#666');
+    ctx.font='bold 10px Arial';
+    ctx.fillText(p.verificado_asegi?'✅ OK':(ea?'⏳ Pend.':'N/A'),cx[8]+3,y+27);
+    ctx.fillStyle=p.verificado_banco?'#00e676':'#ff6b6b';
+    ctx.fillText(p.verificado_banco?'✅ OK':'⏳ Pend.',cx[9]+3,y+27);
+    ctx.strokeStyle='rgba(255,255,255,.06)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(0,y+rH); ctx.lineTo(W,y+rH); ctx.stroke();
     y+=rH;
   });
   y+=14;
-  ctx.fillStyle='rgba(0,166,81,.15)';rr(ctx,10,y,W-20,sH,14);ctx.fill();
-  ctx.strokeStyle='#00A651';ctx.lineWidth=1.5;rr(ctx,10,y,W-20,sH,14);ctx.stroke();
-  ctx.fillStyle='#00A651';ctx.font='bold 14px Arial';ctx.textAlign='center';
+  ctx.fillStyle='rgba(0,166,81,.15)'; rr(ctx,10,y,W-20,sH,14); ctx.fill();
+  ctx.strokeStyle='#00A651'; ctx.lineWidth=1.5; rr(ctx,10,y,W-20,sH,14); ctx.stroke();
+  ctx.fillStyle='#00A651'; ctx.font='bold 14px Arial'; ctx.textAlign='center';
   ctx.fillText('DISTRIBUCIÓN DEL POZO',W/2,y+24);
-  [{icon:'🥇',l:'1er Lugar (50%)',v:'Q'+(pz*.5).toFixed(2),c:'#FFD700'},{icon:'🥈',l:'2do Lugar (30%)',v:'Q'+(pz*.3).toFixed(2),c:'#C0C0C0'},{icon:'🥉',l:'3er Lugar (20%)',v:'Q'+(pz*.2).toFixed(2),c:'#CD7F32'}].forEach((pr,i)=>{
-    const px=150+i*210;ctx.fillStyle=pr.c;ctx.font='bold 13px Arial';ctx.textAlign='center';
-    ctx.fillText(pr.icon+' '+pr.l,px,y+52);ctx.font='bold 20px Arial Black';ctx.fillText(pr.v,px,y+80);
+  [{l:'🥇 1er Lugar (50%)',v:'Q'+(pz*.5).toFixed(2),c:'#FFD700'},{l:'🥈 2do Lugar (30%)',v:'Q'+(pz*.3).toFixed(2),c:'#C0C0C0'},{l:'🥉 3er Lugar (20%)',v:'Q'+(pz*.2).toFixed(2),c:'#CD7F32'}].forEach((pr,i)=>{
+    const px=150+i*210; ctx.fillStyle=pr.c; ctx.font='bold 13px Arial'; ctx.textAlign='center';
+    ctx.fillText(pr.l,px,y+52); ctx.font='bold 20px Arial Black'; ctx.fillText(pr.v,px,y+80);
   });
-  ctx.fillStyle='#FFD700';ctx.font='bold 11px Arial';ctx.textAlign='center';
+  ctx.fillStyle='#FFD700'; ctx.font='bold 11px Arial'; ctx.textAlign='center';
   ctx.fillText('Aporte ASEGI: Q'+(ta*25).toFixed(2)+' ('+ta+' asociados × Q25)',W/2,y+108);
   y+=sH+10;
-  ctx.fillStyle='rgba(255,255,255,.04)';ctx.fillRect(0,y,W,fH);
-  ctx.fillStyle='#4a6060';ctx.font='11px Arial';ctx.textAlign='center';
-  ctx.fillText('⚠️ Pendiente verificación de estatus ASEGI con encargada de asociados',W/2,y+22);
-  ctx.fillStyle='#2a4060';ctx.fillText('Inter Quiniela Mundial 2026 · ASEGI · Corporación Interport Group, S.A.',W/2,y+44);
-  const lnk=document.createElement('a');lnk.download='InterQuiniela2026_'+Date.now()+'.png';lnk.href=canvas.toDataURL('image/png');lnk.click();
+  ctx.fillStyle='rgba(255,255,255,.04)'; ctx.fillRect(0,y,W,fH);
+  ctx.fillStyle='#4a6060'; ctx.font='11px Arial'; ctx.textAlign='center';
+  ctx.fillText('Verificaciones ASEGI: '+vA+'/'+ta+' · Verificaciones bancarias: '+vB+'/'+participantes.length,W/2,y+22);
+  ctx.fillStyle='#2a4060';
+  ctx.fillText('Inter Quiniela Mundial 2026 · ASEGI · Corporación Interport Group, S.A.',W/2,y+44);
+  const lnk=document.createElement('a'); lnk.download='InterQuiniela2026_'+Date.now()+'.png';
+  lnk.href=canvas.toDataURL('image/png'); lnk.click();
   showToast('📱 Imagen lista para WhatsApp');
 }
 
@@ -458,7 +712,8 @@ function tr(t,max){return t&&t.length>max?t.substring(0,max-1)+'…':t}
 function rr(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.arcTo(x+w,y,x+w,y+r,r);ctx.lineTo(x+w,y+h-r);ctx.arcTo(x+w,y+h,x+w-r,y+h,r);ctx.lineTo(x+r,y+h);ctx.arcTo(x,y+h,x,y+h-r,r);ctx.lineTo(x,y+r);ctx.arcTo(x,y,x+r,y,r);ctx.closePath()}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200)}
 
-init();
+// Init si ya hay sesión
+if (rolActual) init();
 </script>
 </body>
 </html>
